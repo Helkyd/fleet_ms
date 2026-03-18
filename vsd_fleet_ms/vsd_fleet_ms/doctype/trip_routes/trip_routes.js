@@ -39,8 +39,8 @@ frappe.ui.form.on('Trip Routes', {
 frappe.ui.form.on('Trip Steps', {
     location: function (frm, cdt, cdn) {
         if (locals[cdt][cdn].location != "") {
-            frappe.model.with_doc('Trip Location', locals[cdt][cdn].location, function () {
-                reference_doc = frappe.model.get_doc('Trip Location', locals[cdt][cdn].location);
+            frappe.model.with_doc('Trip Locations', locals[cdt][cdn].location, function () {
+                reference_doc = frappe.model.get_doc('Trip Locations', locals[cdt][cdn].location);
                 if (1 == reference_doc.is_local_border) {
                     frappe.model.set_value(cdt, cdn, 'is_local_border', 1);
                     frappe.model.set_value(cdt, cdn, 'is_international_border', 0);

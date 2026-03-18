@@ -257,6 +257,8 @@ def request_funds(**args):
         doc.db_set("company", args.company)
         return "Request Updated"
     else:
+        print ('criar novo peidod de requested payment...')
+        '''
         request = frappe.new_doc("Requested Payment")
         request.update(
             {
@@ -272,6 +274,22 @@ def request_funds(**args):
             }
         )
         request.insert(ignore_permissions=True)
+        '''
+
+        request = frappe.get_doc({
+            "doctype": "Requested Payment",
+            "reference_doctype": args.reference_doctype,
+            "reference_docname": args.reference_docname,
+            "company": args.company,
+            "manifest": args.manifest,
+            "truck_no": args.truck,
+            "truck_driver": args.truck_driver,
+            "trip_route": args.trip_route,
+            "approval_status": "Waiting Approval",
+            "payment_status": "Waiting Approval",
+        }).insert(ignore_permissions=True)
+
+
         return "Request Inserted"
 
 

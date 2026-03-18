@@ -274,7 +274,7 @@
    "type": "Link"
   }
  ],
- "modified": "2025-09-03 10:49:31.306934",
+ "modified": "2026-03-18 07:49:24.942815",
  "modified_by": "Administrator",
  "module": "VSD Fleet MS",
  "name": "Fleet MS",
@@ -282,30 +282,6 @@
   {
    "label": "Active Trucks",
    "number_card_name": "Active Trucks"
-  },
-  {
-   "label": "Completed Trips",
-   "number_card_name": "Completed Trips"
-  },
-  {
-   "label": "Idle Trucks",
-   "number_card_name": "Idle Trucks"
-  },
-  {
-   "label": "Active Trips",
-   "number_card_name": "Trucks with Pending Trips"
-  },
-  {
-   "label": "Total Requested Payments",
-   "number_card_name": "Total Requested Payments"
-  },
-  {
-   "label": "Drivers",
-   "number_card_name": "Active Drivers"
-  },
-  {
-   "label": "Total Fuel Requested",
-   "number_card_name": "Total Fuel Requested"
   }
  ],
  "owner": "arnold@vvsdtz.com",

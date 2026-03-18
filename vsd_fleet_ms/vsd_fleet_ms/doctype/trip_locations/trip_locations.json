@@ -27,6 +27,9 @@
   {
    "fieldname": "description",
    "fieldtype": "Data",
+   "in_filter": 1,
+   "in_list_view": 1,
+   "in_standard_filter": 1,
    "label": "Location Name"
   },
   {
@@ -118,7 +121,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2023-05-31 11:50:03.299923",
+ "modified": "2026-03-18 06:46:25.978740",
  "modified_by": "Administrator",
  "module": "VSD Fleet MS",
  "name": "Trip Locations",
@@ -137,6 +140,8 @@
    "write": 1
   }
  ],
+ "row_format": "Dynamic",
+ "search_fields": "description",
  "sort_field": "modified",
  "sort_order": "DESC",
  "states": [],
