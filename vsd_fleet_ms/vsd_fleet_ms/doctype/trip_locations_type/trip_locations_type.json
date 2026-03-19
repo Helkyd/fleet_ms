@@ -1,5 +1,6 @@
 {
  "actions": [],
+ "allow_import": 1,
  "autoname": "field:location_type",
  "creation": "2023-05-04 12:47:58.488072",
  "default_view": "List",
@@ -60,7 +61,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2023-05-04 14:09:52.693361",
+ "modified": "2026-03-19 09:38:26.699453",
  "modified_by": "Administrator",
  "module": "VSD Fleet MS",
  "name": "Trip Locations Type",
@@ -81,6 +82,7 @@
    "write": 1
   }
  ],
+ "row_format": "Dynamic",
  "sort_field": "modified",
  "sort_order": "DESC",
  "states": [],

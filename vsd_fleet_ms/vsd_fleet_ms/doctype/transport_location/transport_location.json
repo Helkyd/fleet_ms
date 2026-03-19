@@ -1,5 +1,6 @@
 {
  "actions": [],
+ "allow_import": 1,
  "allow_rename": 1,
  "autoname": "field:location",
  "creation": "2023-05-05 12:11:04.574345",
@@ -36,7 +37,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2023-05-08 16:01:45.244894",
+ "modified": "2026-03-19 09:30:26.109139",
  "modified_by": "Administrator",
  "module": "VSD Fleet MS",
  "name": "Transport Location",
@@ -56,6 +57,7 @@
    "write": 1
   }
  ],
+ "row_format": "Dynamic",
  "sort_field": "modified",
  "sort_order": "DESC",
  "states": [],

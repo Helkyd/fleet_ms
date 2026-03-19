@@ -14,6 +14,8 @@ from frappe import _, msgprint
 from vsd_fleet_ms.utils.dimension import set_dimension
 from vsd_fleet_ms.vsd_fleet_ms.doctype.requested_payment.requested_payment import request_funds
 
+import aoerp_tools
+
 class CargoRegistration(Document):
     def before_save(self):
         if self.get('requested_fund'):
@@ -52,6 +54,9 @@ def create_sales_invoice(doc, rows):
             description += "<BR>ROUTE: " + row["cargo_route"]
         if trip_info:
             description += trip_info
+
+        #FIX 19-03-2026; Removed for now as field not EXIST
+        '''
         if row["allow_bill_on_weight"] == 1:
             item = frappe._dict({
                     "item_code": row["service_item"],
@@ -76,7 +81,21 @@ def create_sales_invoice(doc, rows):
             )
             item_row_per.append([row, item])
             items.append(item)
+        '''
+
+        item = frappe._dict({
+            "item_code": row["service_item"],
+            "qty": 1,
+            #"uom": row["bill_uom"], REMOVED 19-03-2026
+            "rate": row["rate"],
+            "description": description,
+            "cargo_id": row.get("name"),
+            }
+        )
+        item_row_per.append([row, item])
+        items.append(item)
         
+    iva_default = aoerp_tools.util.angola.get_taxa_iva()
     invoice = frappe.get_doc(
         dict(
             doctype="Sales Invoice",
@@ -85,6 +104,7 @@ def create_sales_invoice(doc, rows):
             posting_date=nowdate(),
             company=doc.company,
             items=items,
+            taxes_and_charges=iva_default[0].parent
         ),
     )
 
