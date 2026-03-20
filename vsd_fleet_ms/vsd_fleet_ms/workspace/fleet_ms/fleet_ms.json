@@ -274,7 +274,7 @@
    "type": "Link"
   }
  ],
- "modified": "2026-03-20 10:35:51.548420",
+ "modified": "2026-03-20 10:44:52.306559",
  "modified_by": "Administrator",
  "module": "VSD Fleet MS",
  "name": "Fleet MS",
@@ -294,6 +294,14 @@
   {
    "label": "Active Trips",
    "number_card_name": "Active Trips"
+  },
+  {
+   "label": "Total Requested Payments",
+   "number_card_name": "Total Requested Payments"
+  },
+  {
+   "label": "Drivers",
+   "number_card_name": "Drivers"
   }
  ],
  "owner": "arnold@vvsdtz.com",
