@@ -109,6 +109,16 @@
   {
    "hidden": 0,
    "is_query_report": 0,
+   "label": "Trip Routes",
+   "link_count": 0,
+   "link_to": "Trip Routes",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
    "label": "Cargo Type",
    "link_count": 0,
    "link_to": "Cargo Types",
@@ -274,7 +284,7 @@
    "type": "Link"
   }
  ],
- "modified": "2026-03-20 10:44:52.306559",
+ "modified": "2026-03-20 16:54:55.075255",
  "modified_by": "Administrator",
  "module": "VSD Fleet MS",
  "name": "Fleet MS",
@@ -302,6 +312,10 @@
   {
    "label": "Drivers",
    "number_card_name": "Drivers"
+  },
+  {
+   "label": "Total Fuel Requested",
+   "number_card_name": "Total Fuel Requested"
   }
  ],
  "owner": "arnold@vvsdtz.com",
