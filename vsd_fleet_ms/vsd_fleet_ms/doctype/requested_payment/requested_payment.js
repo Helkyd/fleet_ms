@@ -305,7 +305,7 @@ cur_frm.cscript.recommend_request = function(frm){
 	}
 	else
 	{
-		show_alert("Error: Please select requests to process.");
+		frappe.show_alert("Error: Please select requests to process.");
 	}
 }
 
@@ -341,7 +341,7 @@ cur_frm.cscript.recommend_against_request = function(frm){
 	}
 	else
 	{
-		show_alert("Error: Please select requests to process.");
+		frappe.show_alert("Error: Please select requests to process.");
 	}
 }
 
@@ -377,7 +377,7 @@ cur_frm.cscript.approve_request = function(frm){
 	}
 	else
 	{
-		show_alert("Error: Please select requests to process.");
+		frappe.show_alert("Error: Please select requests to process.");
 	}
 }
 
@@ -413,7 +413,7 @@ cur_frm.cscript.reject_request = function(frm){
 	}
 	else
 	{
-		show_alert("Error: Please select requests to process.");
+		frappe.show_alert("Error: Please select requests to process.");
 	}
 }
 
@@ -497,7 +497,7 @@ cur_frm.cscript.accounts_cancel = function(frm){
 	}
 	else
 	{
-		show_alert("Error: Please select requests to process.");
+		frappe.show_alert("Error: Please select requests to process.");
 	}
 }
 

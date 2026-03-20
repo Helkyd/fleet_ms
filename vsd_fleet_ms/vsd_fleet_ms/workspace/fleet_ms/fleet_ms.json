@@ -274,7 +274,7 @@
    "type": "Link"
   }
  ],
- "modified": "2026-03-18 07:49:24.942815",
+ "modified": "2026-03-20 10:35:51.548420",
  "modified_by": "Administrator",
  "module": "VSD Fleet MS",
  "name": "Fleet MS",
@@ -282,6 +282,18 @@
   {
    "label": "Active Trucks",
    "number_card_name": "Active Trucks"
+  },
+  {
+   "label": "Idle Trucks",
+   "number_card_name": "Idle Trucks"
+  },
+  {
+   "label": "Completed Trips",
+   "number_card_name": "Completed Trips"
+  },
+  {
+   "label": "Active Trips",
+   "number_card_name": "Active Trips"
   }
  ],
  "owner": "arnold@vvsdtz.com",

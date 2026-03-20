@@ -341,7 +341,8 @@ def create_stock_out_entry(doc, fuel_stock_out):
     if not warehouse:
         frappe.throw(_("Please Set Fuel Warehouse in Vehicle"))
 
-    item = {"item_code": fuel_item, "qty": float(fuel_stock_out)}
+    #FIX 20-03-2026; Allow Zero Valuation Rate by default.
+    item = {"item_code": fuel_item, "qty": float(fuel_stock_out), "allow_zero_valuation_rate": 1}
     stock_entry_doc = frappe.get_doc(dict(
         doctype="Stock Entry",
         from_bom=0,
