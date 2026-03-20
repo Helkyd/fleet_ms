@@ -46,7 +46,7 @@ frappe.ui.form.on('Requested Payment', {
 		var total_request_usd = 0;
 		var all_approved = true;
 		cur_frm.doc.requested_funds.forEach(function(row){
-			if(row.request_currency == 'TZS')
+			if(row.request_currency == 'KZ')
 			{
 				total_request_tsh += row.request_amount;
 			}
@@ -63,7 +63,7 @@ frappe.ui.form.on('Requested Payment', {
 			frm.save_or_update();
 		}
 		
-		cur_frm.get_field("request_total_amount").wrapper.innerHTML = '<p class="text-muted small">Total Amount Approved</p><b>USD ' + total_request_usd.toLocaleString() + ' <br> TZS ' + total_request_tsh.toLocaleString() + '</b>';
+		cur_frm.get_field("request_total_amount").wrapper.innerHTML = '<p class="text-muted small">Total Amount Approved</p><b>USD ' + total_request_usd.toLocaleString() + ' <br> KZ ' + total_request_tsh.toLocaleString() + '</b>';
 	
 		
 		if (cur_frm.doc.requested_funds.length > 0){
@@ -74,7 +74,7 @@ frappe.ui.form.on('Requested Payment', {
 		var total_approved_tsh = 0;
 		var total_approved_usd = 0;
 		cur_frm.doc.accounts_approval.forEach(function(row){
-			if(row.request_status == "Approved" && row.request_currency == 'TZS' && row.journal_entry != '')
+			if(row.request_status == "Approved" && row.request_currency == 'KZ' && row.journal_entry != '')
 			{
 				total_approved_tsh += row.request_amount;
 			}
@@ -84,13 +84,13 @@ frappe.ui.form.on('Requested Payment', {
 			}
 		});
 		
-		cur_frm.get_field("total_amount").wrapper.innerHTML = '<p class="text-muted small">Total Amount Approved</p><b>USD ' + total_approved_usd.toLocaleString() + ' <br> TZS ' + total_approved_tsh.toLocaleString() + '</b>';
+		cur_frm.get_field("total_amount").wrapper.innerHTML = '<p class="text-muted small">Total Amount Approved</p><b>USD ' + total_approved_usd.toLocaleString() + ' <br> KZ ' + total_approved_tsh.toLocaleString() + '</b>';
 		
 		//For total paid amount
 		var total_tsh = 0;
 		var total_usd = 0;
 		cur_frm.doc.accounts_approval.forEach(function(row){
-			if(row.request_currency == "TZS")
+			if(row.request_currency == "KZ")
 			{
 				total_tsh += row.request_amount;
 			}
@@ -103,7 +103,7 @@ frappe.ui.form.on('Requested Payment', {
 		var total_paid_tsh = 0;
 		var total_paid_usd = 0;
 		cur_frm.doc.accounts_approval.forEach(function(row){
-			if(row.request_status == "Approved" && row.request_currency == 'TZS' && row.journal_entry)
+			if(row.request_status == "Approved" && row.request_currency == 'KZ' && row.journal_entry)
 			{
 				total_paid_tsh += row.request_amount;
 			}
@@ -125,7 +125,7 @@ frappe.ui.form.on('Requested Payment', {
 			frm.save_or_update();
 		}
 		
-		cur_frm.get_field("account_approval_buttons").wrapper.innerHTML = '<p class="text-muted small">Total Amount Paid</p><b>USD ' + total_paid_usd.toLocaleString() + ' <br> TZS ' + total_paid_tsh.toLocaleString() + '</b>';
+		cur_frm.get_field("account_approval_buttons").wrapper.innerHTML = '<p class="text-muted small">Total Amount Paid</p><b>USD ' + total_paid_usd.toLocaleString() + ' <br> KZ ' + total_paid_tsh.toLocaleString() + '</b>';
 		
 		}
 		//Make payment button
@@ -524,7 +524,7 @@ cur_frm.cscript.populate_child = function(reference_doctype, reference_docname){
 					new_row.request_description = row.request_description;
 					new_row.request_comment = row.request_comment;
 					new_row.request_status = row.request_status;
-					if(row.request_currency == 'TZS')
+					if(row.request_currency == 'KZ')
 					{
 						request_total_amount_tsh += row.request_amount;
 					}
@@ -561,7 +561,7 @@ cur_frm.cscript.populate_child = function(reference_doctype, reference_docname){
 					new_row.request_description = row.request_description;
 					new_row.request_comment = row.request_comment;
 					new_row.request_status = row.request_status;
-					if(row.request_currency == 'TZS')
+					if(row.request_currency == 'KZ')
 					{
 						request_total_amount_tsh += row.request_amount;
 					}
@@ -598,7 +598,7 @@ cur_frm.cscript.populate_child = function(reference_doctype, reference_docname){
 					new_row.request_description = row.request_description;
 					new_row.request_comment = row.request_comment;
 					new_row.request_status = row.request_status;
-					if(row.request_currency == 'TZS')
+					if(row.request_currency == 'KZ')
 					{
 						request_total_amount_tsh += row.request_amount;
 					}
@@ -625,7 +625,7 @@ cur_frm.cscript.populate_child = function(reference_doctype, reference_docname){
 		{
 			cur_frm.set_df_property("html1", "hidden", 0);
 			console.log(cur_frm.get_field('request_total_amount'));
-			cur_frm.get_field("request_total_amount").$wrapper[0].innerHTML = '<p class="text-muted small">Total Requested Amount</p><b>USD ' + request_total_amount_usd + ' <br> TZS ' + request_total_amount_tsh.toLocaleString() + '</b>';
+			cur_frm.get_field("request_total_amount").$wrapper[0].innerHTML = '<p class="text-muted small">Total Requested Amount</p><b>USD ' + request_total_amount_usd + ' <br> KZ ' + request_total_amount_tsh.toLocaleString() + '</b>';
 			//cur_frm.refresh_field("request_total_amount");
 		}
 		else

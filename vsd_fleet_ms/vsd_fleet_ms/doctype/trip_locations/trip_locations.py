@@ -13,6 +13,11 @@ EARTH_RADIUS = 6378137
 class TripLocations(NestedSet):
 	nsm_parent_field = "parent_location"
 
+
+	def autoname(self):
+		#FIX 20-03-2026
+		self.name = self.description
+
 	def validate(self):
 		self.calculate_location_area()
 

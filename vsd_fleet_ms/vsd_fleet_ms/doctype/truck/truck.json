@@ -68,7 +68,6 @@
   {
    "fieldname": "manufacturing_year",
    "fieldtype": "Data",
-   "in_list_view": 1,
    "label": "Manufacturing Year",
    "reqd": 1
   },
@@ -151,7 +150,9 @@
   {
    "fieldname": "license_plate",
    "fieldtype": "Data",
+   "in_filter": 1,
    "in_list_view": 1,
+   "in_standard_filter": 1,
    "label": "License Plate",
    "reqd": 1
   },
@@ -191,6 +192,9 @@
   {
    "fieldname": "trans_ms_default_trailer",
    "fieldtype": "Link",
+   "in_filter": 1,
+   "in_list_view": 1,
+   "in_standard_filter": 1,
    "label": "Default Trailer",
    "options": "Trailers"
   },
@@ -266,7 +270,7 @@
  "image_field": "image",
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-01-08 17:31:38.541283",
+ "modified": "2026-03-20 07:57:17.417237",
  "modified_by": "Administrator",
  "module": "VSD Fleet MS",
  "name": "Truck",
@@ -286,7 +290,8 @@
    "write": 1
   }
  ],
- "search_fields": "truck_number,license_plate",
+ "row_format": "Dynamic",
+ "search_fields": "truck_number,license_plate,trans_ms_default_trailer",
  "sort_field": "modified",
  "sort_order": "DESC",
  "states": [

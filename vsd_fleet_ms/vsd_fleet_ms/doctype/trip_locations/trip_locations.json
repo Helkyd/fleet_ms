@@ -38,7 +38,7 @@
    "label": "Location (Latitude, Longitude)"
   },
   {
-   "default": "0",
+   "default": "1",
    "fieldname": "is_local_border",
    "fieldtype": "Check",
    "label": "Is Local Border"
@@ -121,7 +121,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2026-03-18 06:46:25.978740",
+ "modified": "2026-03-20 07:27:25.276931",
  "modified_by": "Administrator",
  "module": "VSD Fleet MS",
  "name": "Trip Locations",

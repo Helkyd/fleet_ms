@@ -22,7 +22,7 @@ frappe.ui.form.on('Trip Routes', {
     calculate_total_expenses: function (frm) {
         var totals = {
             "USD": 0,
-            "TZS": 0
+            "KZ": 0
         };
         frm.doc.fixed_expenses.forEach(function (row) {
             if (row.currency && row.amount) {
@@ -31,7 +31,7 @@ frappe.ui.form.on('Trip Routes', {
         });
 
         frm.set_value('total_usd', totals['USD']);
-        frm.set_value('total_tzs', totals['TZS']);
+        frm.set_value('total_kz', totals['KZ']);
     }
 });
 

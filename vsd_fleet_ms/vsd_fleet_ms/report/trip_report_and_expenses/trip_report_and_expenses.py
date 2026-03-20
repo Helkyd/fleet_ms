@@ -59,8 +59,8 @@ def execute(filters=None):
 			"width": 160
 		},
 		{
-			"fieldname": "trip_expenses_tzs",
-			"label": _("Trip Expenses (TZS)"),
+			"fieldname": "trip_expenses_kz",
+			"label": _("Trip Expenses (KZ)"),
 			"fieldtype": "Float",
 			"width": 150
 		},
@@ -98,8 +98,8 @@ def execute(filters=None):
 			(
 				SELECT SUM(request_amount)
 				FROM `tabRequested Fund Details`
-				WHERE parenttype = 'Trips' AND parent = `tabTrips`.name AND request_currency = 'TZS' AND request_status = 'Approved' AND journal_entry != ''
-			) AS trip_expenses_tzs,
+				WHERE parenttype = 'Trips' AND parent = `tabTrips`.name AND request_currency = 'KZ' AND request_status = 'Approved' AND journal_entry != ''
+			) AS trip_expenses_kz,
 			date as posting_date
 		FROM
 			`tabTrips`

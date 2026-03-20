@@ -403,7 +403,7 @@ function approved_total() {
   var total_request_tsh = 0;
   var total_request_usd = 0;
   cur_frm.doc.requested_fund_accounts_table.forEach(function (row) {
-    if (row.request_currency == "TZS" && row.request_status == "Approved") {
+    if (row.request_currency == "KZ" && row.request_status == "Approved") {
       total_request_tsh += row.request_amount;
     } else if (
       row.request_currency == "USD" &&
@@ -415,7 +415,7 @@ function approved_total() {
   cur_frm.get_field("html2").wrapper.innerHTML =
     '<p class="text-muted small">Total Amount Approved</p><b>USD ' +
     total_request_usd.toLocaleString() +
-    " <br> TZS " +
+    " <br> KZ " +
     total_request_tsh.toLocaleString() +
     "</b>";
 }
@@ -423,7 +423,7 @@ function requested_total() {
   var total_request_tsh = 0;
   var total_request_usd = 0;
   cur_frm.doc.requested_fund_accounts_table.forEach(function (row) {
-    if (row.request_currency == "TZS" && row.request_status == "Requested") {
+    if (row.request_currency == "KZ" && row.request_status == "Requested") {
       total_request_tsh += row.request_amount;
     } else if (
       row.request_currency == "USD" &&
@@ -435,7 +435,7 @@ function requested_total() {
   cur_frm.get_field("html").wrapper.innerHTML =
     '<p class="text-muted small">Total Amount Requested</p><b>USD ' +
     total_request_usd.toLocaleString() +
-    " <br> TZS " +
+    " <br> KZ " +
     total_request_tsh.toLocaleString() +
     "</b>";
 }
@@ -443,7 +443,7 @@ function rejected_total() {
   var total_request_tsh = 0;
   var total_request_usd = 0;
   cur_frm.doc.requested_fund_accounts_table.forEach(function (row) {
-    if (row.request_currency == "TZS" && row.request_status == "Rejected") {
+    if (row.request_currency == "KZ" && row.request_status == "Rejected") {
       total_request_tsh += row.request_amount;
     } else if (
       row.request_currency == "USD" &&
@@ -455,7 +455,7 @@ function rejected_total() {
   cur_frm.get_field("html3").wrapper.innerHTML =
     '<p class="text-muted small">Total Amount Rejected</p><b>USD ' +
     total_request_usd.toLocaleString() +
-    " <br> TZS " +
+    " <br> KZ " +
     total_request_tsh.toLocaleString() +
     "</b>";
 }

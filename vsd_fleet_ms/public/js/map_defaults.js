@@ -8,7 +8,7 @@ const map_settings = frappe.provide("frappe.utils.map_defaults");
 // Angola is located at latitude -11.202692 and longitude 17.873887
 map_settings.center = [-11.202692, 17.873887];
 // new zoomlevel: see the whole country, not just a single city
-//map_settings.zoom = 5.5;
+map_settings.zoom = 5.5;
 
 // Use a different map: satellite instead of streets
 // Examples can be found at https://leaflet-extras.github.io/leaflet-providers/preview/

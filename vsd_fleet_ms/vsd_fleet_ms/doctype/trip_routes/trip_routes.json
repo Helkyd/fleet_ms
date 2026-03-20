@@ -21,7 +21,7 @@
   "total_fuel_consumption_qty",
   "fixed_expenses_section",
   "fixed_expenses",
-  "total_tzs",
+  "total_kz",
   "total_usd"
  ],
  "fields": [
@@ -80,9 +80,9 @@
    "options": "Fixed Expenses Table"
   },
   {
-   "fieldname": "total_tzs",
+   "fieldname": "total_kz",
    "fieldtype": "Float",
-   "label": "Total TZS",
+   "label": "Total KZ",
    "read_only": 1
   },
   {

@@ -657,7 +657,7 @@
    "label": "Expected Days at the Border"
   },
   {
-   "default": "TZS",
+   "default": "KZ",
    "fieldname": "charges_currency",
    "fieldtype": "Link",
    "label": "Charges Currency",

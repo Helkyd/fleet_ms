@@ -10,6 +10,10 @@ app_license = "MIT"
 # Includes in <head>
 # ------------------
 
+
+#FIX 20-03-2026; To show Angola
+app_include_js = ["/assets/vsd_fleet_ms/js/map_defaults.js"]
+
 # include js, css files in header of desk.html
 # app_include_css = "/assets/vsd_fleet_ms/css/vsd_fleet_ms.css"
 # app_include_js = "/assets/vsd_fleet_ms/js/vsd_fleet_ms.js"
