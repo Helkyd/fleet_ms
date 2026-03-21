@@ -1,8 +1,10 @@
 # Copyright (c) 2023, VV SYSTEMS DEVELOPER LTD and contributors
 # For license information, please see license.txt
 
+#Last Modified: 21-03-2026
 import frappe
 from frappe.model.document import Document
+import time
 
 class Truck(Document):
 	def before_save(self):
@@ -43,4 +45,64 @@ class Truck(Document):
 				self.status = "Disabled"
 		if self.status == "Disabled":
 			self.disabled == 1
+
+	def on_update(self):
+		#FIX 21-03-2026; Check if Officinas app installed
+		print ('on update truck... ', self.license_plate)
+		print ('Apps installed ', frappe.get_installed_apps())
+		print ("aoerp_oficinas" in frappe.get_installed_apps())
+		if "aoerp_oficinas" in frappe.get_installed_apps():
+			camiao = frappe.get_list('Veiculos',fields=['name'],filters=[['name','=',self.license_plate]])
+			if camiao == []:
+				print ('Truck does not existe.... creating...')
+				modelo_camiao = frappe.get_list('Marca Carros',fields=['name','modelo'],filters=[['modelo','=',self.model]])
+				if modelo_camiao == []:
+					print ('Create Model and Make for Trucks...')
+					modelo_camiao = frappe.get_doc({
+						"doctype": "Marca Carros",
+						"marca": self.make,
+						"modelo": self.model
+					})
+					modelo_camiao.insert()
+					frappe.db.commit()
+					time.sleep(.300)
+					modelo_camiao = frappe.get_list('Marca Carros',fields=['name','modelo'],filters=[['modelo','=',self.model]])
+				'''
+				except frappe.DoesNotExistError:
+					print ('Create Model and Make for Trucks...')
+					modelo_camiao = frappe.get_doc({
+						"doctype": "Marca Carros",
+						"marca": self.make,
+						"modelo": self.model
+					})
+					modelo_camiao.insert()
+					frappe.db.commit()
+				'''
+
+				print ('Now creates the Truck...')
+				print ('modelo_camiao')
+				print (modelo_camiao)
+				print (type(modelo_camiao))
+
+				print (modelo_camiao[0].name)
+				print (modelo_camiao[0].modelo)
+
+				marca_camiao = modelo_camiao[0].name
+				modelo_camiao = modelo_camiao[0].modelo
+
+				
+				response = frappe.get_doc({
+					"doctype": "Veiculos",
+					"matricula": self.license_plate,
+					"categoria": "Pesados",	#Default for TRucks
+					"marca": marca_camiao,
+					"modelo": modelo_camiao,
+					"veiculo_ano": self.manufacturing_year,
+					"veiculo_combustivel": "Gasolina" if self.fuel_type == "Petrol" else "Gasoleo",
+					"veiculo_numero_chassi": self.chassis_number,
+					"veiculo_codigo_motor": self.engine_number,
+					"veiculos_kms": self.odometer_value,
+				})
+				response.insert()		
+				frappe.db.commit()
 
