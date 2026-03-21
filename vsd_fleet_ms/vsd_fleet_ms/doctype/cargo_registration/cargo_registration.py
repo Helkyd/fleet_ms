@@ -19,6 +19,7 @@ import aoerp_tools
 
 class CargoRegistration(Document):
     def before_save(self):
+        print ('Cargo registration... BEFORE SAVE')
         sync_cargo_registration_links(self)
         if self.get('requested_fund'):
             for row in self.get('requested_fund'):

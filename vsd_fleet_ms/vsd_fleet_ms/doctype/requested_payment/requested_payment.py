@@ -250,11 +250,18 @@ def request_funds(**args):
     timestamp = datetime.datetime.fromtimestamp(ts).strftime("%Y-%m-%d %H:%M:%S")
 
     if existing_payment_request:
+        print ('Existing Payment request.... ')
+        print (args.manifest)
         # Mark the request as open
         doc = frappe.get_doc("Requested Payment", existing_payment_request)
         doc.db_set("approval_status", "Waiting Approval")
         doc.db_set("modified", timestamp)
         doc.db_set("company", args.company)
+        #Check if has Manifest...
+        if args.manifest:
+            doc.db_set("manifest", args.manifest)
+
+
         return "Request Updated"
     else:
         print ('criar novo peidod de requested payment...')

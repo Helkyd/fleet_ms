@@ -1,5 +1,6 @@
 // Copyright (c) 2023, VV SYSTEMS DEVELOPER LTD and contributors
 // For license information, please see license.txt
+//Last Modified: 21-03-2026
 
 frappe.ui.form.on("Trips", {
   refresh: function (frm) {
@@ -14,6 +15,9 @@ frappe.ui.form.on("Trips", {
         function () {
           frm.set_value("trip_completed", 1);
           frm.set_value("trip_completed_date", frappe.datetime.nowdate());
+          //FIX 21-03-2026;Status set to Completed
+          frm.set_value("trip_status", "Completed");
+
           var truck = frm.doc.truck_number;
           frm.save();
           if (frm.doc.transporter_type == "In House") {

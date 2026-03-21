@@ -79,6 +79,20 @@ class Manifest(Document):
 		
 	def on_submit(self):
 		self.set_truck_dimension()
+		#FIX 21-03-2026
+		#Payment Request set the Manifest...
+		for row in self.manifest_cargo_details:
+			#cargoReg = frappe.get_doc('Cargo Registration', row.cargo_id)
+			cargoReg = frappe.get_all('Cargo Registration',filters={"manifest": self.name})
+			for cr in cargoReg:
+				requestedfund = frappe.get_all('Requested Payment',filters={"reference_docname": cr.name,"reference_doctype": "Cargo Registration"})
+				for rfund in requestedfund:
+					requestedfund_doc = frappe.get_doc('Requested Payment', rfund.name)
+					#frappe.db.set_value('Requested Payment',rfund.name,'manifest',self.name)
+					requestedfund_doc.manifest = self.name
+					requestedfund_doc.trip_route = self.route
+					requestedfund_doc.save()
+
 
 	def cargo_allocation(self):
 		if self.transporter_type == "Sub-Contractor":
