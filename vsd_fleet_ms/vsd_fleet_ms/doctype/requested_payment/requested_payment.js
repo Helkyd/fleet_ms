@@ -74,7 +74,7 @@ frappe.ui.form.on('Requested Payment', {
 		var total_approved_kz = 0;
 		var total_approved_usd = 0;
 		cur_frm.doc.accounts_approval.forEach(function(row){
-			if(row.request_status == "Approved" && row.request_currency == 'KZ' && row.journal_entry != '')
+			if(row.request_status == "Approved" && row.request_currency == 'KZ') // && row.journal_entry != '')
 			{
 				total_approved_kz += row.request_amount;
 			}
@@ -103,7 +103,7 @@ frappe.ui.form.on('Requested Payment', {
 		var total_paid_kz = 0;
 		var total_paid_usd = 0;
 		cur_frm.doc.accounts_approval.forEach(function(row){
-			if(row.request_status == "Approved" && row.request_currency == 'KZ' && row.journal_entry)
+			if(row.request_status == "Approved" && row.request_currency == 'KZ') // && row.journal_entry)
 			{
 				total_paid_kz += row.request_amount;
 			}
@@ -115,6 +115,10 @@ frappe.ui.form.on('Requested Payment', {
 		
 		//For payment status (If all payments have been paid, payment status == 'Paid')
 		//FOR KZ ONLY
+		console.log('tota kz ', total_kz)
+		console.log('totapaidkz ', total_paid_kz)
+		console.log('paystatus ', frm.doc.payment_status)
+
 		if(total_kz >= 0 && total_kz == total_paid_kz && frm.doc.payment_status != "Paid")
 		//if(total_usd >= 0 && total_kz >= 0 && total_usd == total_paid_usd && total_kz == total_paid_kz && frm.doc.payment_status != "Paid")
 		{

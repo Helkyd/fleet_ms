@@ -253,5 +253,8 @@ def make_stock_entry(source_name, target_doc=None):
         },
         target_doc,
     )
+
+    doc.company = frappe.db.get_value("Fuel Requests", source_name, "company")
+    
     return doc
 

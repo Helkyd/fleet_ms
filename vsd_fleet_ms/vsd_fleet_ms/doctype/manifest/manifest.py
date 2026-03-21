@@ -7,6 +7,8 @@ from frappe.query_builder import DocType
 from frappe.model.document import Document
 import datetime
 
+from vsd_fleet_ms.utils.document_links import sync_cargo_registration_links
+
 class Manifest(Document):
 	def onload(self):
 		if self.name and self.docstatus == 0:
@@ -268,6 +270,7 @@ def add_to_existing_manifest(args_array):
 			for row in cargo_registration.cargo_details:
 				if row.name == args_dict.get('cargo_id'):
 					row.manifest_number = args_dict.get('manifest')
+					sync_cargo_registration_links(cargo_registration)
 					cargo_registration.save()
 					break
 			
@@ -307,6 +310,7 @@ def create_new_manifest(args_array):
 			for row in cargo_registration.cargo_details:
 				if row.name == args_dict.get('cargo_id'):
 					row.manifest_number = manifest.name
+					sync_cargo_registration_links(cargo_registration)
 					cargo_registration.save()
 					break
 			

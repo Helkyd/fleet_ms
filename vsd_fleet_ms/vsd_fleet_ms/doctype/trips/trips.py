@@ -14,6 +14,7 @@ from frappe import _, msgprint
 from vsd_fleet_ms.utils.dimension import set_dimension
 from erpnext.setup.utils import get_exchange_rate
 from vsd_fleet_ms.vsd_fleet_ms.doctype.requested_payment.requested_payment import request_funds
+from vsd_fleet_ms.utils.document_links import sync_cargo_registration_links
 
 
 class Trips(Document):
@@ -134,6 +135,7 @@ class Trips(Document):
             else:
                 fuel_request = frappe.new_doc("Fuel Requests")
                 fuel_request.update({
+                    "company": self.company,
                     "truck_plate_number": self.get("vehicle_plate_number"),
                     "customer": self.get("customer"),
                     "truck": self.get("vehicle_plate_number"),
@@ -199,6 +201,7 @@ def create_vehicle_trip_from_manifest(args_array):
             for row in cargo_registration.cargo_details:
                 if row.manifest_number == manifest.name:
                     row.created_trip = vehicle_trip.name
+                    sync_cargo_registration_links(cargo_registration)
                     cargo_registration.save()
                     break
 
