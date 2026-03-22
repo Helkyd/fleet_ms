@@ -4,8 +4,8 @@
 frappe.ui.form.on('Requested Payment', {
 	onload: function(frm){
 		//Load the approve and reject buttons
-		var html = '<button style="background-color: green; color: #FFF;" class="btn btn-default btn-xs" onclick="cur_frm.cscript.approve_request(\'' + frm + '\');">Approve</button> ';
-		html += '<button style="background-color: red; color: #FFF;" class="btn btn-default btn-xs" onclick="cur_frm.cscript.reject_request(\'' + frm + '\');">Reject</button>'
+		var html = `<button style="background-color: green; color: #FFF;" class="btn btn-default btn-xs" onclick="cur_frm.cscript.approve_request(\'' + frm + '\');">${__("Approve")}</button> `;
+		html += `<button style="background-color: red; color: #FFF;" class="btn btn-default btn-xs" onclick="cur_frm.cscript.reject_request(\'' + frm + '\');">${__("Reject")}</button>`
 		$(frm.fields_dict.html1.wrapper).html(html);
 		
 		//cur_frm.disable_save();
@@ -63,7 +63,7 @@ frappe.ui.form.on('Requested Payment', {
 			frm.save_or_update();
 		}
 		
-		cur_frm.get_field("request_total_amount").wrapper.innerHTML = '<p class="text-muted small">Total Amount Approved</p><b>USD ' + total_request_usd.toLocaleString() + ' <br> KZ ' + total_request_kz.toLocaleString() + '</b>';
+		cur_frm.get_field("request_total_amount").wrapper.innerHTML = `<p class="text-muted small">${__("Total Amount Approved")}</p><b>USD ` + total_request_usd.toLocaleString() + ' <br> KZ ' + total_request_kz.toLocaleString() + '</b>';
 	
 		
 		if (cur_frm.doc.requested_funds.length > 0){
@@ -84,7 +84,7 @@ frappe.ui.form.on('Requested Payment', {
 			}
 		});
 		
-		cur_frm.get_field("total_amount").wrapper.innerHTML = '<p class="text-muted small">Total Amount Approved</p><b>USD ' + total_approved_usd.toLocaleString() + ' <br> KZ ' + total_approved_kz.toLocaleString() + '</b>';
+		cur_frm.get_field("total_amount").wrapper.innerHTML = `<p class="text-muted small">${__("Total Amount Approved")}</p><b>USD ` + total_approved_usd.toLocaleString() + ' <br> KZ ' + total_approved_kz.toLocaleString() + '</b>';
 		
 		//For total paid amount
 		var total_kz = 0;
@@ -131,7 +131,7 @@ frappe.ui.form.on('Requested Payment', {
 			frm.save_or_update();
 		}
 		
-		cur_frm.get_field("account_approval_buttons").wrapper.innerHTML = '<p class="text-muted small">Total Amount Paid</p><b>USD ' + total_paid_usd.toLocaleString() + ' <br> KZ ' + total_paid_kz.toLocaleString() + '</b>';
+		cur_frm.get_field("account_approval_buttons").wrapper.innerHTML = `<p class="text-muted small">${__("Total Amount Paid")}</p><b>USD ` + total_paid_usd.toLocaleString() + ' <br> KZ ' + total_paid_kz.toLocaleString() + '</b>';
 		
 		}
 		//Make payment button
@@ -631,7 +631,7 @@ cur_frm.cscript.populate_child = function(reference_doctype, reference_docname){
 		{
 			cur_frm.set_df_property("html1", "hidden", 0);
 			console.log(cur_frm.get_field('request_total_amount'));
-			cur_frm.get_field("request_total_amount").$wrapper[0].innerHTML = '<p class="text-muted small">Total Requested Amount</p><b>USD ' + request_total_amount_usd + ' <br> KZ ' + request_total_amount_kz.toLocaleString() + '</b>';
+			cur_frm.get_field("request_total_amount").$wrapper[0].innerHTML = `<p class="text-muted small">${__("Total Requested Amount")}</p><b>USD ` + request_total_amount_usd + ' <br> KZ ' + request_total_amount_kz.toLocaleString() + '</b>';
 			//cur_frm.refresh_field("request_total_amount");
 		}
 		else
