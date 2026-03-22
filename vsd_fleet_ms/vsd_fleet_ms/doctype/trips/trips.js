@@ -417,7 +417,7 @@ function approved_total() {
     }
   });
   cur_frm.get_field("html2").wrapper.innerHTML =
-    '<p class="text-muted small">Total Amount Approved</p><b>USD ' +
+    `<p class="text-muted small">${__("Total Amount Approved")}</p><b>USD ` +
     total_request_usd.toLocaleString() +
     " <br> KZ " +
     total_request_tsh.toLocaleString() +
@@ -437,7 +437,7 @@ function requested_total() {
     }
   });
   cur_frm.get_field("html").wrapper.innerHTML =
-    '<p class="text-muted small">Total Amount Requested</p><b>USD ' +
+    `<p class="text-muted small">${__("Total Amount Requested")}</p><b>USD ` +
     total_request_usd.toLocaleString() +
     " <br> KZ " +
     total_request_tsh.toLocaleString() +
@@ -457,7 +457,7 @@ function rejected_total() {
     }
   });
   cur_frm.get_field("html3").wrapper.innerHTML =
-    '<p class="text-muted small">Total Amount Rejected</p><b>USD ' +
+    `<p class="text-muted small">${__("Total Amount Rejected")}</p><b>USD ` +
     total_request_usd.toLocaleString() +
     " <br> KZ " +
     total_request_tsh.toLocaleString() +
@@ -480,15 +480,15 @@ function fuel_amount() {
   });
   var content = "";
   content =
-    '<p class="text-muted small">Total Fuel Requested: <b>' +
+    `<p class="text-muted small">${__("Total Fuel Requested")}: <b>` +
     requested_fuel.toLocaleString() +
     "</b></p>";
   content +=
-    '<p class="text-muted small">Total Fuel Approved: <b>' +
+    `<p class="text-muted small">${__("Total Fuel Approved")}: <b>` +
     approved_fuel.toLocaleString() +
     "</b></p>";
   content +=
-    '<p class="text-muted small">Total Fuel Rejected: <b>' +
+    `<p class="text-muted small">${__("Total Fuel Rejected")}: <b>` +
     rejected_fuel.toLocaleString() +
     "</b></p>";
   cur_frm.get_field("html4").wrapper.innerHTML = content;
