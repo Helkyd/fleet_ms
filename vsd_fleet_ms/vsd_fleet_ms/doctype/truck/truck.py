@@ -102,6 +102,7 @@ class Truck(Document):
 					"veiculo_numero_chassi": self.chassis_number,
 					"veiculo_codigo_motor": self.engine_number,
 					"veiculos_kms": self.odometer_value,
+					"pertence_empresa": 1,	#Default
 				})
 				response.insert()		
 				frappe.db.commit()

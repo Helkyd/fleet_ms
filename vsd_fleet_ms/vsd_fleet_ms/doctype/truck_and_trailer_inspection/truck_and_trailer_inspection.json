@@ -208,19 +208,19 @@
    "label": "Upload Respective Truck Image"
   },
   {
-   "fetch_from": "trip.truck_driver",
+   "fetch_from": "trip.assigned_driver",
    "fieldname": "truck_driver",
    "fieldtype": "Data",
    "label": "Truck Driver"
   },
   {
-   "fetch_from": "trip.truck",
+   "fetch_from": "trip.truck_licence_plate",
    "fieldname": "truck_plate_number",
    "fieldtype": "Data",
    "label": "Truck Plate No"
   },
   {
-   "fetch_from": "trip.trailer",
+   "fetch_from": "trip.trailer_1",
    "fieldname": "trailer_no",
    "fieldtype": "Data",
    "label": "Trailer No"
@@ -239,7 +239,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2023-10-09 17:07:48.778329",
+ "modified": "2026-03-22 09:36:31.822015",
  "modified_by": "Administrator",
  "module": "VSD Fleet MS",
  "name": "Truck and Trailer Inspection",
@@ -259,6 +259,7 @@
    "write": 1
   }
  ],
+ "row_format": "Dynamic",
  "sort_field": "modified",
  "sort_order": "DESC",
  "states": []

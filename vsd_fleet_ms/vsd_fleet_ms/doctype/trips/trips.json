@@ -593,6 +593,7 @@
    "default": "Pending",
    "fieldname": "trip_status",
    "fieldtype": "Select",
+   "in_list_view": 1,
    "label": "Trip Status",
    "options": "Pending\nCompleted\nBreakdown",
    "read_only": 1
@@ -697,7 +698,7 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2026-03-21 13:33:17.493784",
+ "modified": "2026-03-22 08:57:43.759270",
  "modified_by": "Administrator",
  "module": "VSD Fleet MS",
  "name": "Trips",

@@ -39,6 +39,19 @@ class FuelRequests(Document):
             doc.db_set("receipt_time", row.receipt_time)
             doc.db_set("received_by", row.received_by)
 
+        #FIX 22-03-2026; 
+        trip = frappe.get_doc(self.reference_doctype, self.reference_docname)
+        if not self.main_route:
+            self.main_route =  trip.route
+        if not self.truck:
+            self.truck =  trip.truck_number
+        if not self.truck_driver:
+            self.truck_driver =  trip.assigned_driver
+        if not self.driver_name:
+            self.driver_name =  trip.driver_name
+        if not self.truck_plate_number:
+            self.truck_plate_number = trip.truck_licence_plate
+
     def load_from_db(self):
         """Load document and children from database and create properties
         from fields"""
