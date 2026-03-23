@@ -4,8 +4,8 @@
 frappe.ui.form.on('Requested Payment', {
 	onload: function(frm){
 		//Load the approve and reject buttons
-		var html = `<button style="background-color: green; color: #FFF;" class="btn btn-default btn-xs" onclick="cur_frm.cscript.approve_request(\'' + frm + '\');">${__("Approve")}</button> `;
-		html += `<button style="background-color: red; color: #FFF;" class="btn btn-default btn-xs" onclick="cur_frm.cscript.reject_request(\'' + frm + '\');">${__("Reject")}</button>`
+		var html = '<button style="background-color: green; color: #FFF;" class="btn btn-default btn-xs" onclick="cur_frm.cscript.approve_request(\'' + frm + '\');">Approve</button> ';
+		html += '<button style="background-color: red; color: #FFF;" class="btn btn-default btn-xs" onclick="cur_frm.cscript.reject_request(\'' + frm + '\');">Reject</button>'
 		$(frm.fields_dict.html1.wrapper).html(html);
 		
 		//cur_frm.disable_save();
