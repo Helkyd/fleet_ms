@@ -286,7 +286,7 @@ cur_frm.cscript.recommend_request = function(frm){
 	if(selected['requested_funds'])
 	{
 		frappe.confirm(
-			'Confirm: Recommend selected requests?',
+			__('Confirm: Recommend selected requests?'),
 			function(){
 				$.each(selected['requested_funds'], function(index, value){
 					frappe.call({
@@ -322,7 +322,7 @@ cur_frm.cscript.recommend_against_request = function(frm){
 	if(selected['requested_funds'])
 	{
 		frappe.confirm(
-			'Confirm: Recommend against the selected requests?',
+			__('Confirm: Recommend against the selected requests?'),
 			function(){
 				$.each(selected['requested_funds'], function(index, value){
 					frappe.call({
@@ -358,7 +358,7 @@ cur_frm.cscript.approve_request = function(frm){
 	if(selected['requested_funds'])
 	{
 		frappe.confirm(
-			'Confirm: Approve selected requests?',
+			__('Confirm: Approve selected requests?'),
 			function(){
 				$.each(selected['requested_funds'], function(index, value){
 					frappe.call({
