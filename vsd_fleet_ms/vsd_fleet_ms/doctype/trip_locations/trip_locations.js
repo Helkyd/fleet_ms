@@ -1,6 +1,8 @@
 // Copyright (c) 2023, VV SYSTEMS DEVELOPER LTD and contributors
 // For license information, please see license.txt
 
+//Last Modified: 07-07-2026
+
 frappe.ui.form.on('Trip Locations', {
 	// refresh: function(frm) {
 
@@ -20,7 +22,8 @@ frappe.ui.form.on('Trip Locations', {
 
 });
 function geolocation(frm){
-	if (frm.doc.latitude == 0 && frm.doc.longitude == 0) {
+	//FIX 07-07-2026; Changed == 0 to != 0
+	if (frm.doc.latitude != 0 && frm.doc.longitude != 0) {
 		console.log('geo lat e long.....')
 		console.log('lat ', frm.doc.latitude)
 		console.log('long ', frm.doc.longitude)
