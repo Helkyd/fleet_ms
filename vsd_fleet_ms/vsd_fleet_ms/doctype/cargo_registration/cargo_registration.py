@@ -123,6 +123,10 @@ def create_sales_invoice(doc, rows):
     invoice.flags.ignore_mandatory = True
     invoice.calculate_taxes_and_totals()
     invoice.insert(ignore_permissions=True)
+    #FIX 16-07-2026
+    invoice.submit_on_creation = False
+    invoice.status = "Draft"
+
     for item in doc.cargo_details:
         if item.name in [i["name"] for i in rows]:
             item.invoice = invoice.name
@@ -130,7 +134,9 @@ def create_sales_invoice(doc, rows):
             #     trip = frappe.get_doc("Trips", item.created_trip)
             #     trip.invoice_number = invoice.name
             #     trip.save()
-    doc.save()
+    #FIX 16-07-2026
+    if doc.docstatus == 0:
+        doc.save()
            
         
     frappe.msgprint(_("Sales Invoice {0} Created").format(invoice.name), alert=True)

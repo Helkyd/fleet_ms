@@ -21,9 +21,15 @@ frappe.ui.form.on('Cargo Registration', {
 	setup: function(frm,cdt,cdn){
 		frm.set_query("service_item", "cargo_details", function (doc, cdt, cdn) {
 			return {
+				/*
 				filters: {
-					item_group: "Services",
+					item_group: ["Services","Servico Transporte Mercadorias"],
 				}
+					*/
+				filters: [
+					["item_group", "IN", ["Services","Servico Transporte Mercadorias"]]
+				]
+
 			};
 		});
 		cargo_location_city_filter(frm,cdt,cdn);
@@ -52,7 +58,36 @@ frappe.ui.form.on('Cargo Registration', {
 				frappe.msgprint(__("All Rows are Invoiced!"));
 			}
 		} else {
-			frappe.msgprint(__("No Row is Selected!"));
+			//FIX 16-07-2026
+			console.log('Submited ', frm.doc.docstatus);
+			if (frm.doc.docstatus == 1) {
+				console.log('Select all...');
+				//let selected_all = frm.selected_doc.cargo_details
+				//let rows = frm.doc.cargo_details.filter(i => selected_all.includes(i.name) && !i.invoice);
+
+				let selected_all = frm.selected_doc.cargo_details.map(item => item.name);
+				let rows = frm.doc.cargo_details.filter(i => selected_all.includes(i.name) && !i.invoice);
+				console.log(rows.length); // Will now show the correct count
+
+				if (rows.length) {
+					frappe.call({
+						method: "vsd_fleet_ms.vsd_fleet_ms.doctype.cargo_registration.cargo_registration.create_sales_invoice",
+						args: {
+							doc: frm.doc,
+							rows: rows
+						},
+						callback: function (data) {
+							frappe.set_route('Form', data.message.doctype, data.message.name);
+						}
+					});
+				} else {
+					frappe.msgprint(__("All Rows are Invoiced!"));
+				}
+
+			} else {
+				frappe.msgprint(__("No Row is Selected!"));
+			}
+			
 		}
 	},
 });
@@ -106,6 +141,34 @@ frappe.ui.form.on('Cargo Detail', {
 	},
 	cargo_destination_country: function(frm,cdt,cdn){
 		cargo_destination_city_filter(frm,cdt,cdn);
+	},
+	//FIX 16-07-2026; Service Item to add Rate and Currency 
+	service_item: function(frm, cdt, cdn) {
+		console.log('Service ITem...');
+		if (locals[cdt][cdn].service_item != "") {
+            frappe.model.with_doc('Item', locals[cdt][cdn].service_item, function () {
+                reference_doc = frappe.model.get_doc('Item', locals[cdt][cdn].service_item);
+				console.log('Reference doc ITEM');
+				console.log(reference_doc);
+
+				frappe.model.get_value('Item Price', {item_code: locals[cdt][cdn].service_item}, 'price_list_rate',
+					function(d) {
+						console.log('REs ', d);
+						let rate = d.price_list_rate;
+						frappe.model.set_value(cdt, cdn, 'rate', rate);
+						frappe.model.get_value('Company', {'name': cur_frm.doc.company}, 'default_currency',
+							function(d) {
+								//console.log(d)
+								//conta_rendimento = d
+								frappe.model.set_value(cdt,cdn,'currency', d.default_currency);
+							}
+						)
+
+				});
+
+			})
+		}
+
 	},
 	assign_manifest: function(frm,cdt,cdn){
 		var row = locals[cdt][cdn];
@@ -335,7 +398,7 @@ function cargo_destination_city_filter(frm,cdt,cdn){
 frappe.ui.form.on('Requested Fund Details', {
     disburse_funds: function (frm, cdt, cdn) {
         if (frm.is_dirty()) {
-            frappe.throw(__("Plase Save First"));
+            frappe.throw(__("Please Save First"));
             return;
         }
         const row = locals[cdt][cdn];
