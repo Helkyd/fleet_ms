@@ -74,6 +74,55 @@ frappe.ui.form.on('Trip Steps', {
         })
         frm.set_value('total_fuel_consumption_qty', total_fuel_consumption);
     },
+
+    location_type: function (frm, cdt, cdn) {
+        //FIX 16-07-2026
+        console.log('Location Type');
+        console.log (locals[cdt][cdn].location_type);
+        if (locals[cdt][cdn].location_type == "Offloading Point") {
+            console.log('OffLoading Point....');
+            var carregamento_location = null;
+            for (var key in locals['Trip Steps']) {
+                console.log('key ', key)
+                if ("Loading Point" == locals['Trip Steps'][key].location_type) {
+                    carregamento_location = locals['Trip Steps'][key].location;
+                    break;
+                }
+            }
+            console.log('carregamento_location ', carregamento_location);
+            //Get Lat and Long
+            frappe.model.with_doc('Trip Locations', locals[cdt][cdn].location, function () {
+                offloading_location = frappe.model.get_doc('Trip Locations', locals[cdt][cdn].location);
+                loading_location = frappe.model.get_doc('Trip Locations', carregamento_location);
+
+                console.log('Tem dados de Loading and Offloadin...');
+                console.log('loading ', loading_location);
+                console.log('offloading ', offloading_location);
+                frappe.call({
+                    "method": "aoerp_tools.util.geo_location.chamar_tripcalculator",
+                    args: {
+                        fuel_consumption: 40,   //Default for Truck
+                        fuel_price: 420,        //Price now in Angola for Diesel
+                        from_city: loading_location.name,
+                        start_coord: [loading_location.latitude, loading_location.longitude],
+                        to_city: offloading_location.name,
+                        end_coord: [offloading_location.latitude, offloading_location.longitude]
+                    },
+                    callback: function (data) {
+                        console.log('DAODS Lat e Long..');
+                        console.log(data.message);
+                        if (data.message){
+                            frappe.model.set_value(cdt, cdn, 'distance', data.message.distance_km);
+                            frappe.model.set_value(cdt, cdn, 'fuel_consumption_qty', data.message.fuel_needed_liters);
+                        }
+
+                    }
+                });
+
+            })
+
+        }
+    }
 });
 
 frappe.ui.form.on('Fixed Expenses Table', {
