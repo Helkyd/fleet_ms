@@ -137,6 +137,9 @@ def create_sales_invoice(doc, rows):
     #FIX 16-07-2026
     if doc.docstatus == 0:
         doc.save()
+    else:
+        frappe.db.sql(""" UPDATE `tabCargo Detail` set invoice = %s where parent = %s and isnull(invoice) """, (invoice.name,doc.name), as_dict=False)
+        frappe.db.commit()
            
         
     frappe.msgprint(_("Sales Invoice {0} Created").format(invoice.name), alert=True)
