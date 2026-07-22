@@ -101,7 +101,7 @@ frappe.ui.form.on('Trip Steps', {
                 frappe.call({
                     "method": "aoerp_tools.util.geo_location.chamar_tripcalculator",
                     args: {
-                        fuel_consumption: 40,   //Default for Truck
+                        fuel_consumption: 500,   //Default for Truck
                         fuel_price: 420,        //Price now in Angola for Diesel
                         from_city: loading_location.name,
                         start_coord: [loading_location.latitude, loading_location.longitude],
