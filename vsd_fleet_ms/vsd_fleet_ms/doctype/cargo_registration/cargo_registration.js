@@ -18,20 +18,89 @@ frappe.ui.form.on('Cargo Registration', {
 			// 	fetchManifestData();
 			// });
 		},
-	setup: function(frm,cdt,cdn){
-		frm.set_query("service_item", "cargo_details", function (doc, cdt, cdn) {
-			return {
-				/*
-				filters: {
-					item_group: ["Services","Servico Transporte Mercadorias"],
-				}
-					*/
-				filters: [
-					["item_group", "IN", ["Services","Servico Transporte Mercadorias"]]
-				]
+	//FIX 27-07-2026
+	customer: function(frm,cdt,cdn) {
+		console.log('CUSTOMER ', locals[cdt][cdn].customer);
+		frappe.model.with_doc('Customer', locals[cdt][cdn].customer, function () {
+			customer_group = frappe.model.get_doc('Customer', locals[cdt][cdn].customer);
+			console.log('CUSTOMER Price Group');
+			console.log(customer_group);
+			console.log(customer_group.default_price_list);
+			if (customer_group.default_price_list) {
+				frm.set_query("service_item", "cargo_details", function (doc, cdt, cdn) {
+					return {
+						filters: [
+							["item_group", "=", customer_group.default_price_list]
+						]
 
-			};
-		});
+					};
+				});
+			} else {
+				frm.set_query("service_item", "cargo_details", function (doc, cdt, cdn) {
+					return {
+						/*
+						filters: {
+							item_group: ["Services","Servico Transporte Mercadorias"],
+						}
+							*/
+						filters: [
+							["item_group", "IN", ["Services","Servico Transporte Mercadorias"]]
+						]
+
+					};
+				});
+			}
+		})
+
+	},		
+	setup: function(frm,cdt,cdn){
+		//FIX 27-07-2026
+		console.log('Customer ', frm.doc.customer);
+		console.log('cdt ', locals[cdt]);
+		console.log(locals[cdt][cdn]);
+		
+		if (frm.doc.customer) {
+			frappe.model.with_doc('Customer', locals[cdt][cdn].customer, function () {
+				customer_group = frappe.model.get_doc('Customer', locals[cdt][cdn].customer);
+				console.log('CUSTOMER Price Group');
+				console.log(customer_group);
+				console.log(customer_group.default_price_list);
+				if (customer_group.default_price_list) {
+					frm.set_query("service_item", "cargo_details", function (doc, cdt, cdn) {
+						return {
+							filters: [
+								["item_group", "=", customer_group.default_price_list]
+							]
+
+						};
+					});
+
+				} else {
+					frm.set_query("service_item", "cargo_details", function (doc, cdt, cdn) {
+						return {
+							filters: [
+								["item_group", "IN", ["Services","Servico Transporte Mercadorias"]]
+							]
+
+						};
+					});
+
+				}
+			})
+
+		} else {
+			frm.set_query("service_item", "cargo_details", function (doc, cdt, cdn) {
+				return {
+					filters: [
+						["item_group", "IN", ["Services","Servico Transporte Mercadorias"]]
+					]
+
+				};
+			});
+
+		}
+		
+
 		cargo_location_city_filter(frm,cdt,cdn);
 		cargo_destination_city_filter(frm,cdt,cdn);
 	},
