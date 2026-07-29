@@ -238,14 +238,14 @@ class Manifest(Document):
 
 @frappe.whitelist()
 def get_manifests(filter):
-    # Implement the logic to fetch the manifests to be billed based on the provided filters
+	# Implement the logic to fetch the manifests to be billed based on the provided filters
 
 	# frappe.msgprint(str(filters))
 	manifests = frappe.get_all(
-        'Manifest',
-        filters=filter,
-        fields=['name', 'route', 'truck','driver_name']  # Adjust the fields as per your requirements
-    )
+		'Manifest',
+		filters=filter,
+		fields=['name', 'route', 'truck','driver_name']  # Adjust the fields as per your requirements
+	)
 	
 	return manifests
 
@@ -289,6 +289,61 @@ def add_to_existing_manifest(args_array):
 					break
 			
 	return manifest.as_dict()
+
+@frappe.whitelist()
+def add_multiple_to_existing_manifest(manifest, cargo_list):
+	#FIX 29-07-2026
+
+   	# Parse the JSON string to Python list
+	try:
+		cargo_list = json.loads(cargo_list)
+	except json.JSONDecodeError:
+		frappe.throw("Invalid cargo list format")
+
+	doc = frappe.get_doc("Manifest", manifest)
+
+	print ('cargo list')
+	print (cargo_list)
+	print (type(cargo_list))
+	
+	for cargo_data in cargo_list:
+		# Add each cargo to the manifest
+		print (cargo_data)
+		print ('*'*10)
+		#print (cargo_data["cargo_id"])
+
+		doc.append("manifest_cargo_details", {
+			"cargo_id":cargo_data.get("cargo_id"),
+			"cargo_route": cargo_data.get("cargo_route"),
+			"cargo_type":cargo_data.get("cargo_type"),
+			"number_of_package":cargo_data.get("number_of_package"),
+			"weight":cargo_data.get("weight"),
+			"bl_number":cargo_data.get("bl_number"),
+			"expected_loading_date":cargo_data.get("expected_loading_date"),
+			"expected_offloading_date":cargo_data.get("expected_offloading_date"),
+			"customer_name":cargo_data.get("customer_name"),
+			"cargo_destination_country":cargo_data.get("cargo_destination_country"),
+			"cargo_destination_city":cargo_data.get("cargo_destination_city"),
+			"container_size":cargo_data.get("container_size"),
+			"seal_number":cargo_data.get("seal_number"),
+			"container_number":cargo_data.get("container_number"),
+			"cargo_loading_city":cargo_data.get("cargo_loading_city"),
+			"cargo_location_country":cargo_data.get("cargo_location_country")			
+		})
+	
+	#doc.save()
+	#return doc
+	if doc.save():
+		cargo_registration = frappe.get_doc('Cargo Registration', cargo_data.get("parent_doctype_name") )
+		if cargo_registration:
+			for row in cargo_registration.cargo_details:
+				if row.name == cargo_data.get('cargo_id'):
+					row.manifest_number = cargo_data.get('manifest')
+					sync_cargo_registration_links(cargo_registration)
+					cargo_registration.save()
+					break
+			
+	return doc.as_dict()
 
 @frappe.whitelist()
 def create_new_manifest(args_array):

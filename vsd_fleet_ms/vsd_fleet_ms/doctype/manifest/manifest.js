@@ -454,6 +454,7 @@ function showCargoDialog(data) {
 			var manifestName = cur_frm.doc.name;
 			dialog.fields_dict.cargo_list.grid.grid_rows.forEach(function(row) {
 				if (row.doc.__checked) {
+					/*
 					selected_cargo.push(row.doc);
 						// Perform the desired action with the selected item
 						// Example: Call a function with the selected item name
@@ -478,11 +479,55 @@ function showCargoDialog(data) {
 							"parent_doctype_name":row.doc.parent_doctype_name
 						}
 						handle_Assign_Button_Click(args_array)
+					*/
+					selected_cargo.push({
+							"manifest":manifestName,
+							"cargo_id":row.doc.cargo_id,
+							"bl_number":row.doc.bl_number,
+							"cargo_route": row.doc.cargo_route,
+							"cargo_type":row.doc.cargo_type,
+							"number_of_package":row.doc.number_of_packages,
+							"weight":row.doc.net_weight,
+							"expected_loading_date":row.doc.loading_date,
+							"expected_offloading_date":row.doc.expected_offloading_date,
+							"customer_name":row.doc.customer_name,
+							"cargo_destination_country":row.doc.cargo_destination_country,
+							"cargo_destination_city":row.doc.cargo_destination_city,
+							"container_size":row.doc.container_size,
+							"seal_number":row.doc.seal_number,
+							"container_number":row.doc.container_number,
+							"cargo_loading_city":row.doc.cargo_location_city,
+							"cargo_location_country":row.doc.cargo_location_country,
+							"parent_doctype_name":row.doc.parent_doctype_name
+						}
+					);
 				}
 			});
 			// console.log(selected_cargo);
 			dialog.hide();
+			/*
+			console.log('Faz refresh.....');
 			cur_frm.refresh_field()
+			*/
+			// Send all selected cargo at once
+			if (selected_cargo.length > 0) {
+				frappe.call({
+					args: {
+						"manifest": manifestName,
+						"cargo_list": selected_cargo
+					},
+					method: "vsd_fleet_ms.vsd_fleet_ms.doctype.manifest.manifest.add_multiple_to_existing_manifest",
+					callback: function (r) {
+						console.log('Multiple cargo added successfully');
+						if (r.message) {
+							var doc = frappe.model.sync(r.message)[0];
+							frappe.set_route("Form", doc.doctype, doc.name);
+						}
+						cur_frm.refresh_field();
+					}
+				});
+			}
+
         }
     });
 
@@ -499,13 +544,17 @@ function showCargoDialog(data) {
 
 function handle_Assign_Button_Click(args_array) {
 	
-	// console.log(args_array.manifest)
+	console.log("args_array ",args_array);
+	console.log(args_array.manifest);
     frappe.call({
 		args: {
 			args_array:args_array
 		},
+		async: true,
 		method: "vsd_fleet_ms.vsd_fleet_ms.doctype.manifest.manifest.add_to_existing_manifest",
 		callback: function (r) {
+			console.log('Handle assign button click...');
+			console.log(r.message);
 			if (r.message){
 				var doc = frappe.model.sync(r.message)[0];
 			frappe.set_route("Form", doc.doctype, doc.name);

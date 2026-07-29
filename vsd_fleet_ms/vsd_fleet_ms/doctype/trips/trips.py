@@ -426,10 +426,21 @@ def check_trip_status(**args):
 @frappe.whitelist()
 def create_stock_out_entry(doc, fuel_stock_out):
 	doc = frappe.get_doc(json.loads(doc))
+	print ('Doc para create stock out....')
+
 	if doc.stock_out_entry:
 		return frappe.get_doc("Stock Entry", doc.stock_out_entry)
 
-	fuel_item = frappe.get_value("Transport Settings", None, "fuel_item")
+	#fuel_item = frappe.get_value("Transport Settings", None, "fuel_item")
+	fuel_item = []
+	fuel_doc = frappe.get_single("Transport Settings")
+
+	# Access the child table field (replace 'your_multiselect_field' with the actual fieldname)
+	if hasattr(fuel_doc, "fuel_item"):
+		for row in fuel_doc.fuel_item:
+			#frappe.msgprint(f"Selected Value: {row.link_fieldname}")  # Replace with actual link fieldname
+			fuel_item.append(row.fuel_item)
+
 	if not fuel_item:
 		frappe.throw(_("Please Set Fuel Item in Transport Settings"))
 
@@ -437,26 +448,36 @@ def create_stock_out_entry(doc, fuel_stock_out):
 	if not warehouse:
 		frappe.throw(_("Please Set Fuel Warehouse in Vehicle"))
 
-	#FIX 20-03-2026; Allow Zero Valuation Rate by default.
-	item = {"item_code": fuel_item, "qty": float(fuel_stock_out), "allow_zero_valuation_rate": 1}
-	stock_entry_doc = frappe.get_doc(dict(
-		doctype="Stock Entry",
-		from_bom=0,
-		posting_date=nowdate(),
-		posting_time=now(),
-		items=[item],
-		stock_entry_type="Material Issue",
-		purpose="Material Issue",
-		from_warehouse=warehouse,
-		company=doc.company,
-		remarks=f"Transfer for {doc.assigned_driver} in truck {doc.truck_number}",
-	))
-	set_dimension(doc, stock_entry_doc)
-	set_dimension(doc, stock_entry_doc, tr_child=stock_entry_doc.items[0])
-	stock_entry_doc.insert(ignore_permissions=True)
-	doc.stock_out_entry = stock_entry_doc.name
-	doc.save()
-	return stock_entry_doc
+	#FIX 29-07-2026; Check which ITEM based on Warehouse
+	print ('fuel item ', fuel_item)
+	for ff in fuel_item:
+		print ('ff ', ff)
+		if ff[ff.rfind(' '):].strip() not in warehouse:
+			#TODO: On settings allow to define two or Itens for Fuel
+			# ex: 
+			print ('TEm que trocar de ITEMS de acordo a Provincia...')
+		else:
+
+			#FIX 20-03-2026; Allow Zero Valuation Rate by default.
+			item = {"item_code": ff, "qty": float(fuel_stock_out), "allow_zero_valuation_rate": 1}
+			stock_entry_doc = frappe.get_doc(dict(
+				doctype="Stock Entry",
+				from_bom=0,
+				posting_date=nowdate(),
+				posting_time=now(),
+				items=[item],
+				stock_entry_type="Material Issue",
+				purpose="Material Issue",
+				from_warehouse=warehouse,
+				company=doc.company,
+				remarks=f"Transfer for {doc.assigned_driver} in truck {doc.truck_number}",
+			))
+			set_dimension(doc, stock_entry_doc)
+			set_dimension(doc, stock_entry_doc, tr_child=stock_entry_doc.items[0])
+			stock_entry_doc.insert(ignore_permissions=True)
+			doc.stock_out_entry = stock_entry_doc.name
+			doc.save()
+			return stock_entry_doc
 
 
 @frappe.whitelist()
