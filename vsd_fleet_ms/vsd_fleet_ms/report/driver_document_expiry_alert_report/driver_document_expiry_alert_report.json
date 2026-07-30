@@ -1,0 +1,35 @@
+{
+ "add_total_row": 0,
+ "add_translate_data": 0,
+ "columns": [],
+ "creation": "2026-07-30 16:15:49.494148",
+ "disable_prepared_report_automation": 0,
+ "disabled": 0,
+ "docstatus": 0,
+ "doctype": "Report",
+ "doctype_to_sync": [],
+ "filters": [],
+ "idx": 0,
+ "is_standard": "Yes",
+ "letter_head": null,
+ "modified": "2026-07-30 16:15:49.494148",
+ "modified_by": "Administrator",
+ "module": "VSD Fleet MS",
+ "name": "Driver Document Expiry Alert Report",
+ "owner": "Administrator",
+ "prepared_report": 0,
+ "query": "SELECT \nd.full_name AS \"Driver Name:Data:400\",\ndda.name1 AS \"Document Type:Data:250\",\ndda.reference_number AS \"Reference No:Data:200\",\ndda.issue_date AS \"Issued On:Date:100\",\ndda.expire_date AS \"Expiring On:Date:100\" \n\nFROM `tabTruck Driver` d \nINNER JOIN `tabDocument Attachments` dda ON d.name=dda.parent\nWHERE dda.expire_date <= date_add(curdate(),interval dda.send_alert_before day) AND dda.expire_date IS NOT NULL\nAND dda.send_alert_before > 0 AND d.status = 'Active' \nORDER BY dda.expire_date",
+ "ref_doctype": "Truck Driver",
+ "report_name": "Driver Document Expiry Alert Report",
+ "report_type": "Query Report",
+ "roles": [
+  {
+   "role": "Fleet Manager"
+  },
+  {
+   "role": "Administrator"
+  }
+ ],
+ "snapshot_report": 0,
+ "timeout": 0
+}
