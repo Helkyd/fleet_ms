@@ -11,7 +11,8 @@
   "reference_number",
   "issue_date",
   "expire_date",
-  "attachment"
+  "attachment",
+  "send_alert_before"
  ],
  "fields": [
   {
@@ -54,7 +55,14 @@
    "in_list_view": 1,
    "label": "Attachment",
    "reqd": 1
-  }
+  },
+  {
+   "fetch_from": "description.send_alert_before",
+   "fieldname": "send_alert_before",
+   "fieldtype": "Data",
+   "label": "Send Alert Before (Days)",
+   "read_only": 1
+  }  
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
