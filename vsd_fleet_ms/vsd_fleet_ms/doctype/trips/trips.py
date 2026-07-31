@@ -27,14 +27,15 @@ class Trips(Document):
 			if not self.stock_out_entry:
 				#FIX 31-07-2026; Check Approved Fuel Request
 				total_approved = 0
-				for app in self.requested_fund_accounts_table:
-					if app.request_status == "Approved":
+				for app in self.fuel_request_history:
+					print ('app ', app)
+					if app.status == "Approved":
 						total_approved += app.quantity
 				if total_approved > 0 and total_approved >= self.fuel_stock_out:
 					print ('Is ok.')
 				else:
 					frappe.throw(_("Stock Out Entry is not set"))
-					
+
 		#FIX 21-03-2026; Set status to Completed
 		if self.trip_status == "Pending":
 			if self.trip_completed:
