@@ -238,9 +238,11 @@ class Trips(Document):
 
 		active_trip = frappe.db.get_value("Trips", filters, "name", order_by="modified desc")
 		if active_trip:
-			frappe.throw(
-				_("Truck {0} is already on another trip: {1}").format(truck_number, active_trip)
-			)
+			#FIX 01-08-2026; If breakdown allow
+			if frappe.db.get_value("Trips", filters, "trip_status", order_by="modified desc") != "Breakdown":
+				frappe.throw(
+					_("Truck {0} is already on another trip: {1}").format(truck_number, active_trip)
+				)
 
 	def sync_truck_status(self):
 		truck_number = self.get_truck_number()
@@ -537,6 +539,18 @@ def create_breakdown(docname):
 	trip.status = "Not Re-Assigned"
 	trip.breakdown_date = now()
 	trip.save()
+
+	#FIX 01-08-2026; Create also on Trip breakdown 
+	new_tripbreakdown = frappe.new_doc("Trip Breakdown")
+	new_tripbreakdown.date = now()
+	new_tripbreakdown.trip = docname
+	new_tripbreakdown.status = "Not Re-Assigned"
+	new_tripbreakdown.breakdown_location = trip.location
+	new_tripbreakdown.description = trip.description
+	new_tripbreakdown.insert()
+
+
+
 	return "successful"
 
 
