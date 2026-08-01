@@ -25,6 +25,7 @@ class Trips(Document):
 	def on_submit(self):
 		if self.transporter_type == "In House":
 			if not self.stock_out_entry:
+				print ('self.stock_out_entry ', self.stock_out_entry)
 				#FIX 31-07-2026; Check Approved Fuel Request
 				total_approved = 0
 				for app in self.fuel_request_history:
