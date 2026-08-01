@@ -290,6 +290,13 @@
    "read_only": 1
   },
   {
+   "fieldname": "quotation",
+   "fieldtype": "Link",
+   "label": "Quotation",
+   "options": "Quotation",
+   "read_only": 1
+  },
+  {
    "fieldname": "section_break_mc959",
    "fieldtype": "Section Break"
   },

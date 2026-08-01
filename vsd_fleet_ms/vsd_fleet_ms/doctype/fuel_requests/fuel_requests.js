@@ -30,18 +30,22 @@ frappe.ui.form.on('Fuel Requests', {
 
 		console.log('status ', cur_frm.doc.status);
 
-		if (cur_frm.doc.status === __("Fully Processed")) {
-			frappe.msgprint(locals[cdt][cdn].status);
+		if (cur_frm.doc.status === __("Fully Processed") || cur_frm.doc.status === "Fully Processed") {
+			frappe.msgprint(__(locals[cdt][cdn].status));
 			//var row = frm.fields_dict['approved_requests'].grid.grid_rows_by_docname[cdn];
 			var row = frm.fields_dict['approved_requests'].grid.grid_rows[0]
 			console.log('row status ', row.doc.status);
-			if (row.doc.status == __("Approved")) {
+			if (row.doc.status == __("Approved") || row.doc.status == "Approved") {
 				cur_frm.add_custom_button(__('Purchase Order'), function () {
 					frm.events.make_purchase_order(frm);
-				}, __("Make"));
-				cur_frm.add_custom_button(__('Issue Fuel'), function () {
-					frm.events.make_stock_entry(frm);
-				}, __("Make"));
+				}, __("Make Button"));
+				//FIX 01-08-2026
+				if (!cur_frm.doc.fuel_issued) {
+					cur_frm.add_custom_button(__('Issue Fuel'), function () {
+						frm.events.make_stock_entry(frm);
+					}, __("Make Button"));
+
+				}
 			}
 		}
 	},

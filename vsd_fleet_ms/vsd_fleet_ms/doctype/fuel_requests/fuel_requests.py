@@ -279,7 +279,11 @@ def make_stock_entry(source_name, target_doc=None):
 		doc.company = frappe.db.get_value("Fuel Requests", source_name, "company")
 		#FIX 31-07-2026
 		doc.stock_entry_type = "Material Issue"
-		doc.remarks = str(frappe.db.get_value("Fuel Requests", source_name, "name")) + ";" + str(frappe.db.get_value("Fuel Requests", source_name, "truck"))
+		doc.remarks = str(frappe.db.get_value("Fuel Requests", source_name, "name")) + ";\n Viagem: " + str(frappe.db.get_value("Fuel Requests", source_name, "reference_docname")) + ";\n Camiao: " + str(frappe.db.get_value("Fuel Requests", source_name, "truck"))
+
+		#FIX 01-08-2026
+		frappe.db.set_value('Fuel Requests',frappe.db.get_value("Fuel Requests", source_name, "name"),'fuel_issued',doc.name)
+		frappe.db.commit()
 		
 		return doc
 

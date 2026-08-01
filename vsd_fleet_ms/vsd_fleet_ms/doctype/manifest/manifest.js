@@ -522,6 +522,7 @@ function showCargoDialog(data) {
 						if (r.message) {
 							var doc = frappe.model.sync(r.message)[0];
 							frappe.set_route("Form", doc.doctype, doc.name);
+							window.location.reload();
 						}
 						cur_frm.refresh_field();
 					}

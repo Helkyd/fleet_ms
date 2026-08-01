@@ -20,6 +20,7 @@
   "cargo_details",
   "section_break_er7n8",
   "column_break_wl4cu",
+  "create_quotation",
   "create_invoice",
   "amended_from",
   "request_funds_section",
@@ -63,7 +64,7 @@
    "options": "Company",
    "set_only_once": 1
   },
- {
+  {
    "allow_on_submit": 1,
    "fieldname": "manifest",
    "fieldtype": "Link",
@@ -78,7 +79,7 @@
    "label": "Trip",
    "options": "Trips",
    "read_only": 1
-  },  
+  },
   {
    "fieldname": "section_break_fuqjo",
    "fieldtype": "Section Break"
@@ -92,6 +93,7 @@
   {
    "fieldname": "create_invoice",
    "fieldtype": "Button",
+   "hidden": 1,
    "label": "Create Invoice",
    "width": "100"
   },
@@ -144,12 +146,17 @@
    "fieldtype": "Link",
    "options": "Requested Payment",
    "read_only": 1
+  },
+  {
+   "fieldname": "create_quotation",
+   "fieldtype": "Button",
+   "label": "Create Quotation"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2026-03-19 09:43:56.182471",
+ "modified": "2026-07-31 20:48:09.426475",
  "modified_by": "Administrator",
  "module": "VSD Fleet MS",
  "name": "Cargo Registration",
@@ -185,6 +192,7 @@
   }
  ],
  "row_format": "Dynamic",
+ "rows_threshold_for_grid_search": 20,
  "sort_field": "modified",
  "sort_order": "DESC",
  "states": [],

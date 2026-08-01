@@ -191,6 +191,7 @@ frappe.ui.form.on("Trips", {
     if (frm.doc.total_distance != total_distance) {
       frm.doc.total_distance = total_distance;
     }
+    console.log('Side trips added...');
   },
   side_trips_remove: function (frm, cdt, cdn) {
     var total_fuel = 0;
@@ -282,32 +283,34 @@ function set_service_ms_costing_visibility(frm) {
     });
 }
 
-// frappe.ui.form.on('Side Trips', {
-// total_distance: function (frm, cdt, cdn) {
-// var total_distance = 0;
-// frm.doc.main_route_steps.forEach(function (row) {
-// total_distance = total_distance + parseInt(row.distance);
-// });
-// frm.doc.side_trips.forEach(function (row) {
-// total_distance = total_distance + parseInt(row.total_distance);
-// });
-// if (frm.doc.total_distance != total_distance){
-// frm.doc.total_distance = total_distance
-// }
-// },
-// total_fuel: function(frm, cdt, cdn){
-// var total_fuel = 0;
-// frm.doc.main_route_steps.forEach(function (row) {
-// total_fuel = total_fuel + parseInt(row.fuel_consumption_qty);
-// });
-// frm.doc.side_trips.forEach(function (row) {
-// total_fuel = total_fuel + parseInt(row.total_fuel);
-// });
-// if (frm.doc.total_fuel != total_fuel) {
-// frm.doc.total_fuel = total_fuel
-// }
-// }
-// });
+frappe.ui.form.on('Side Trips', {
+  total_distance: function (frm, cdt, cdn) {
+    var total_distance = 0;
+    frm.doc.main_route_steps.forEach(function (row) {
+      total_distance = total_distance + parseInt(row.distance);
+    });
+    frm.doc.side_trips.forEach(function (row) {
+      total_distance = total_distance + parseInt(row.total_distance);
+    });
+    if (frm.doc.total_distance != total_distance){
+      frm.doc.total_distance = total_distance
+    }
+  },
+
+  total_fuel: function(frm, cdt, cdn){
+    console.log('Side trips total fuel');
+    var total_fuel = 0;
+    frm.doc.main_route_steps.forEach(function (row) {
+      total_fuel = total_fuel + parseInt(row.fuel_consumption_qty);
+    });
+    frm.doc.side_trips.forEach(function (row) {
+      total_fuel = total_fuel + parseInt(row.total_fuel);
+    });
+    if (frm.doc.total_fuel != total_fuel) {
+      frm.doc.total_fuel = total_fuel
+    }
+  }
+});
 
 frappe.ui.form.on("Truck Trip Location Update", {
   view_on_map: function (frm, cdt, cdn) {

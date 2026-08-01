@@ -1,5 +1,6 @@
 // Copyright (c) 2023, VV SYSTEMS DEVELOPER LTD and contributors
 // For license information, please see license.txt
+// LAST Modified: 31-07-2026
 
 frappe.ui.form.on('Cargo Registration', {
 	onload: function(frm){
@@ -55,7 +56,7 @@ frappe.ui.form.on('Cargo Registration', {
 	},		
 	setup: function(frm,cdt,cdn){
 		//FIX 27-07-2026
-		console.log('Customer ', frm.doc.customer);
+		console.log('SETUP - Customer ', frm.doc.customer);
 		console.log('cdt ', locals[cdt]);
 		console.log(locals[cdt][cdn]);
 		
@@ -159,6 +160,62 @@ frappe.ui.form.on('Cargo Registration', {
 			
 		}
 	},
+	create_quotation: function(frm){
+		//FIX 31-07-2026
+		if (frm.is_dirty()) {
+			frappe.throw(__("Plase Save First"));
+			return;
+		}
+		let selected = frm.get_selected().cargo_details;
+		if (selected) {
+			let rows = frm.doc.cargo_details.filter(i => selected.includes(i.name) && !i.quotation);
+			if (rows.length) {
+				frappe.call({
+					method: "vsd_fleet_ms.vsd_fleet_ms.doctype.cargo_registration.cargo_registration.create_quotation",
+					args: {
+						doc: frm.doc,
+						rows: rows
+					},
+					callback: function (data) {
+						frappe.set_route('Form', data.message.doctype, data.message.name);
+					}
+				});
+			} else {
+				frappe.msgprint(__("All Rows Quotation created!"));
+			}
+		} else {
+			//FIX 16-07-2026
+			console.log('Submited ', frm.doc.docstatus);
+			if (frm.doc.docstatus == 1) {
+				console.log('Select all...');
+				//let selected_all = frm.selected_doc.cargo_details
+				//let rows = frm.doc.cargo_details.filter(i => selected_all.includes(i.name) && !i.invoice);
+
+				let selected_all = frm.selected_doc.cargo_details.map(item => item.name);
+				let rows = frm.doc.cargo_details.filter(i => selected_all.includes(i.name) && !i.quotation);
+				console.log(rows.length); // Will now show the correct count
+
+				if (rows.length) {
+					frappe.call({
+						method: "vsd_fleet_ms.vsd_fleet_ms.doctype.cargo_registration.cargo_registration.create_quotation",
+						args: {
+							doc: frm.doc,
+							rows: rows
+						},
+						callback: function (data) {
+							frappe.set_route('Form', data.message.doctype, data.message.name);
+						}
+					});
+				} else {
+					frappe.msgprint(__("All Rows Quotation created!"));
+				}
+
+			} else {
+				frappe.msgprint(__("No Row is Selected!"));
+			}
+			
+		}
+	},	
 });
 
 frappe.ui.form.on('Cargo Detail', {
