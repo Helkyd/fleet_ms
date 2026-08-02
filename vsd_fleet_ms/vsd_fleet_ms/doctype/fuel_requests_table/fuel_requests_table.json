@@ -15,6 +15,7 @@
   "quantity",
   "disbursement_type",
   "supplier",
+  "from_warehouse",
   "cost_per_litre",
   "column_break_yed9z",
   "item_name",
@@ -46,7 +47,6 @@
    "columns": 1,
    "fieldname": "purchase_order",
    "fieldtype": "Link",
-   "in_list_view": 1,
    "label": "Purchase Order",
    "options": "Purchase Order",
    "read_only": 1
@@ -81,7 +81,7 @@
    "fieldtype": "Select",
    "in_list_view": 1,
    "label": "Disbursement Type",
-   "options": "From Supplier\nCash",
+   "options": "From Supplier\nCash\nFrom Warehouse",
    "read_only_depends_on": "eval:doc.status == \"Approved\"",
    "reqd": 1
   },
@@ -186,17 +186,28 @@
    "fieldtype": "Date",
    "label": "Transaction Date",
    "read_only": 1
+  },
+  {
+   "fieldname": "from_warehouse",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "From Warehouse",
+   "link_filters": "[[\"Warehouse\", \"parent_warehouse\", \"=\", \"Tanques Combustiveis - ATL\"]]",
+   "mandatory_depends_on": "eval:doc.disbursement_type == \"From Warehouse\"",
+   "options": "Warehouse"
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2023-06-13 12:38:58.198351",
+ "modified": "2026-08-02 11:11:09.152944",
  "modified_by": "Administrator",
  "module": "VSD Fleet MS",
  "name": "Fuel Requests Table",
  "owner": "Administrator",
  "permissions": [],
+ "row_format": "Dynamic",
+ "rows_threshold_for_grid_search": 20,
  "sort_field": "modified",
  "sort_order": "DESC",
  "states": []

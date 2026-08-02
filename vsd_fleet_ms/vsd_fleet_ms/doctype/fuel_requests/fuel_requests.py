@@ -269,6 +269,7 @@ def make_stock_entry(source_name, target_doc=None):
 						# "total_cost": "basic_amount",
 						"quantity": "qty",
 						source_name: "fuel_request",
+						"from_warehouse": "s_warehouse",
 						# "cost_per_litre": "basic_rate",
 					},
 				},
@@ -281,9 +282,15 @@ def make_stock_entry(source_name, target_doc=None):
 		doc.stock_entry_type = "Material Issue"
 		doc.remarks = str(frappe.db.get_value("Fuel Requests", source_name, "name")) + ";\n Viagem: " + str(frappe.db.get_value("Fuel Requests", source_name, "reference_docname")) + ";\n Camiao: " + str(frappe.db.get_value("Fuel Requests", source_name, "truck"))
 
-		#FIX 01-08-2026
+		#FIX 01-08-2026; Will never happen unless Stock Entry after saved set this value...
 		frappe.db.set_value('Fuel Requests',frappe.db.get_value("Fuel Requests", source_name, "name"),'fuel_issued',doc.name)
 		frappe.db.commit()
 		
 		return doc
+	else:
+		#FIX 02-08-2026; Set Stock Entry on Fuel Request...
+		if frappe.db.get_value("Fuel Requests", source_name, "fuel_issued") == "" or frappe.db.get_value("Fuel Requests", source_name, "fuel_issued") == None:
+			print ('fuel_requests_issued[0].name ', fuel_requests_issued[0].name)
+			frappe.db.set_value('Fuel Requests',frappe.db.get_value("Fuel Requests", source_name, "name"),'fuel_issued',fuel_requests_issued[0].name)
+			frappe.db.commit()
 

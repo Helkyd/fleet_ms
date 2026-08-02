@@ -114,11 +114,12 @@ cur_frm.cscript.approve_request = function (frm) {
 						}
 					});
 				});
+				//FIX 02-08-2026; Replaced request_doctype by doc
 				frappe.call({
 					method: "vsd_fleet_ms.vsd_fleet_ms.doctype.fuel_requests.fuel_requests.set_status",
 					freeze: true,
 					args: {
-						request_doctype: "Fuel Requests Table",
+						doc: "Fuel Requests Table",
 					},
 					callback: function (data) {
 						//alert(JSON.stringify(data));

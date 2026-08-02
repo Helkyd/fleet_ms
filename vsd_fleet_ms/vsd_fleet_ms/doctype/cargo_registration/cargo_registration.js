@@ -28,6 +28,11 @@ frappe.ui.form.on('Cargo Registration', {
 			console.log(customer_group);
 			console.log(customer_group.default_price_list);
 			if (customer_group.default_price_list) {
+				//FIX 02-08-2026; Clear first and apply later
+				frm.set_query("service_item", "cargo_details", function (doc, cdt, cdn) {
+					return {};
+				});
+
 				frm.set_query("service_item", "cargo_details", function (doc, cdt, cdn) {
 					return {
 						filters: [
@@ -267,6 +272,47 @@ frappe.ui.form.on('Cargo Detail', {
 	},
 	cargo_destination_country: function(frm,cdt,cdn){
 		cargo_destination_city_filter(frm,cdt,cdn);
+	},
+	//FIX 02-08-2026
+	cargo_type: function(frm, cdt, cdn) {
+		console.log('cutomer ', frm.doc.customer);
+
+		if (frm.doc.customer) {
+			console.log('After cargo type selec.....');
+			console.log('After cargo type selec.....');
+			frappe.model.with_doc('Customer', frm.doc.customer, function () {
+				customer_group = frappe.model.get_doc('Customer', frm.doc.customer);
+				console.log('CUSTOMER Price Group');
+				console.log(customer_group);
+				console.log(customer_group.default_price_list);
+				if (customer_group.default_price_list) {
+					frm.set_query("service_item", "cargo_details", function (doc, cdt, cdn) {
+						return {
+							filters: [
+								["item_group", "=", customer_group.default_price_list]
+							]
+
+						};
+					});
+				} else {
+					frm.set_query("service_item", "cargo_details", function (doc, cdt, cdn) {
+						return {
+							/*
+							filters: {
+								item_group: ["Services","Servico Transporte Mercadorias"],
+							}
+								*/
+							filters: [
+								["item_group", "IN", ["Services","Servico Transporte Mercadorias"]]
+							]
+
+						};
+					});
+				}
+			})
+
+		}
+
 	},
 	//FIX 16-07-2026; Service Item to add Rate and Currency 
 	service_item: function(frm, cdt, cdn) {
