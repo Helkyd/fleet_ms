@@ -21,9 +21,11 @@
   "section_break_xkwta",
   "truck_number",
   "eta_end_of_trip",
+  "start_km",
   "column_break_s202g",
   "truck_licence_plate",
   "sub_contactor_truck_license_plate_no",
+  "end_km",
   "section_break_xjznk",
   "assigned_driver",
   "phone_number",
@@ -693,13 +695,23 @@
    "fieldname": "container_return_time",
    "fieldtype": "Data",
    "label": "Container Return Time(Interchange)"
+  },
+  {
+   "fieldname": "start_km",
+   "fieldtype": "Data",
+   "label": "Start KM"
+  },
+  {
+   "fieldname": "end_km",
+   "fieldtype": "Data",
+   "label": "End KM"
   }
  ],
  "in_create": 1,
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2026-08-02 12:15:40.689629",
+ "modified": "2026-08-03 21:43:41.743612",
  "modified_by": "Administrator",
  "module": "VSD Fleet MS",
  "name": "Trips",
