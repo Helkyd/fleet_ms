@@ -23,6 +23,11 @@ class Manifest(Document):
 			truck.trans_ms_current_trip = self.vehicle_trip
 			truck.save()
 
+		#FIX 03-08-2026; Check for Cargo... 
+		if self.docstatus == 1 and len(self.manifest_cargo_details) == 0:
+			frappe.validated = False
+			frappe.throw('No Cargo Added!!!')
+
 	def before_save(self):
 		
 		self.validate_transporter_type()
