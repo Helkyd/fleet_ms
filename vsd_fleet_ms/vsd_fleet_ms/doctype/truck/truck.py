@@ -52,10 +52,11 @@ class Truck(Document):
 		print ('Apps installed ', frappe.get_installed_apps())
 		print ("aoerp_oficinas" in frappe.get_installed_apps())
 		if "aoerp_oficinas" in frappe.get_installed_apps():
-			camiao = frappe.get_list('Veiculos',fields=['name'],filters=[['name','=',self.license_plate]])
+			#FIX 04-08-2026; Added ignore_permissions
+			camiao = frappe.get_list('Veiculos',fields=['name'],filters=[['name','=',self.license_plate]],ignore_permissions=True)
 			if camiao == []:
 				print ('Truck does not existe.... creating...')
-				modelo_camiao = frappe.get_list('Marca Carros',fields=['name','modelo'],filters=[['modelo','=',self.model]])
+				modelo_camiao = frappe.get_list('Marca Carros',fields=['name','modelo'],filters=[['modelo','=',self.model]],ignore_permissions=True)
 				if modelo_camiao == []:
 					print ('Create Model and Make for Trucks...')
 					modelo_camiao = frappe.get_doc({
@@ -63,10 +64,10 @@ class Truck(Document):
 						"marca": self.make,
 						"modelo": self.model
 					})
-					modelo_camiao.insert()
+					modelo_camiao.insert(ignore_permissions=True)
 					frappe.db.commit()
 					time.sleep(.300)
-					modelo_camiao = frappe.get_list('Marca Carros',fields=['name','modelo'],filters=[['modelo','=',self.model]])
+					modelo_camiao = frappe.get_list('Marca Carros',fields=['name','modelo'],filters=[['modelo','=',self.model]],ignore_permissions=True)
 				'''
 				except frappe.DoesNotExistError:
 					print ('Create Model and Make for Trucks...')
@@ -104,6 +105,6 @@ class Truck(Document):
 					"veiculos_kms": self.odometer_value,
 					"pertence_empresa": 1,	#Default
 				})
-				response.insert()		
+				response.insert(ignore_permissions=True)
 				frappe.db.commit()
 

@@ -193,7 +193,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2026-08-01 07:09:36.483355",
+ "modified": "2026-08-04 05:45:46.810547",
  "modified_by": "Administrator",
  "module": "VSD Fleet MS",
  "name": "Fuel Requests",
@@ -209,6 +209,18 @@
    "read": 1,
    "report": 1,
    "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Fleet Manager",
    "share": 1,
    "write": 1
   }
