@@ -734,7 +734,8 @@ def reference_payment(**args):
 
 
 @frappe.whitelist(allow_guest=True)
-def make_payment(source_name, target_doc=None, ignore_permissions=False):
+def make_payment(source_name, target_doc=None, ignore_permissions=True):
+    #FIX 04-08-2026; Changed False to True on ignore_permissions
     pe = frappe.new_doc("Payment Entry")
     pe.payment_type = "Pay"
     pe.posting_date = nowdate()

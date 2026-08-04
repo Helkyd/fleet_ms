@@ -121,7 +121,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2026-08-04 05:43:18.351664",
+ "modified": "2026-08-04 05:52:34.305823",
  "modified_by": "Administrator",
  "module": "VSD Fleet MS",
  "name": "Trip Locations",
@@ -148,6 +148,7 @@
    "read": 1,
    "report": 1,
    "role": "Fleet Manager",
+   "select": 1,
    "share": 1,
    "write": 1
   }
