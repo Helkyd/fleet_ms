@@ -16,6 +16,7 @@ from vsd_fleet_ms.utils.document_links import sync_cargo_registration_links
 from vsd_fleet_ms.vsd_fleet_ms.doctype.requested_payment.requested_payment import request_funds
 
 import aoerp_tools
+from aoerp_tools.util.angola import get_taxa_iva
 
 class CargoRegistration(Document):
 	def before_save(self):
