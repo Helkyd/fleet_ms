@@ -9,7 +9,7 @@ import datetime
 from frappe.model.document import Document
 from frappe.model.mapper import get_mapped_doc
 import json
-from frappe.utils import nowdate, cstr, cint, flt, comma_or, now
+from frappe.utils import nowdate, cstr, cint, flt, comma_or, now, add_days
 from frappe import _, msgprint
 from vsd_fleet_ms.utils.dimension import set_dimension
 from vsd_fleet_ms.utils.document_links import sync_cargo_registration_links
@@ -150,6 +150,8 @@ def create_sales_invoice(doc, rows):
 def create_quotation(doc, rows):
 	doc = frappe.get_doc(json.loads(doc))
 	rows = json.loads(rows)
+	print ('Create quotation...')
+	print (rows)
 	if not rows:
 		return
 	items = []
@@ -159,14 +161,30 @@ def create_quotation(doc, rows):
 		trip_info = None
 		if row.get("transporter_type"):
 			if row["transporter_type"] == "In House":
-				description += "<b>VEHICLE NUMBER: " + row["assigned_truck"]
+				description += "<b>" + _("VEHICLE NUMBER") + ": " + row["assigned_truck"]
 				if row["created_trip"]:
-					trip_info = "<BR>TRIP: " + row["created_trip"]
+					trip_info = "<BR>" + _("TRIP") + ": " + row["created_trip"]
 			elif row["transporter_type"] == "Sub-Contractor":
-				description += "<b>VEHICLE NUMBER: " + row["truck_number"]
-				description += "<br><b>DRIVER NAME: " + row["driver_name"]
+				description += "<b>" + _("VEHICLE NUMBER") + ": " + row["truck_number"]
+				description += "<br><b>" + _("DRIVER NAME") + ": " + row["driver_name"]
+		if row.get("manifest_number"):
+			manifesto = frappe.get_doc("Manifest", row.get("manifest_number"))
+			print (manifesto.transporter_type)
+			if manifesto.transporter_type == "In House":
+				description += "<b>" + _("VEHICLE NUMBER") + ": " + manifesto.truck
+				if manifesto.vehicle_trip:
+					trip_info = "<BR>" + _("TRIP") + ": " + manifesto.vehicle_trip
+			elif manifesto.transporter_type == "Sub-Contractor":
+				description += "<b>" + _("VEHICLE NUMBER") + ": " + manifesto.truck
+				description += "<br><b>" + _("DRIVER NAME") + ": " + manifesto.driver_name
+
 		if row["cargo_route"]:
-			description += "<BR>ROUTE: " + row["cargo_route"]
+			#FIX 05-08-2026
+			if description:
+				description += "<BR>" + _("ROUTE") + ": " + row["cargo_route"]
+			else:
+				description += _("ROUTE") + ": " + row["cargo_route"]
+
 		if trip_info:
 			description += trip_info
 
@@ -217,6 +235,7 @@ def create_quotation(doc, rows):
 			party_name=doc.customer,
 			currency=row["currency"],
 			transaction_date=nowdate(),
+			valid_till=frappe.utils.add_days(frappe.utils.today(),30),
 			company=doc.company,
 			items=items,
 			taxes_and_charges=iva_default[0].parent
