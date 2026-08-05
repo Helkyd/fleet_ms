@@ -164,6 +164,7 @@ def create_quotation(doc, rows):
 				description += "<b>" + _("VEHICLE NUMBER") + ": " + row["assigned_truck"]
 				if row["created_trip"]:
 					trip_info = "<BR>" + _("TRIP") + ": " + row["created_trip"]
+					description += "<br><b>" + _("DRIVER NAME") + ": " + row["driver_name"]
 			elif row["transporter_type"] == "Sub-Contractor":
 				description += "<b>" + _("VEHICLE NUMBER") + ": " + row["truck_number"]
 				description += "<br><b>" + _("DRIVER NAME") + ": " + row["driver_name"]
@@ -171,11 +172,12 @@ def create_quotation(doc, rows):
 			manifesto = frappe.get_doc("Manifest", row.get("manifest_number"))
 			print (manifesto.transporter_type)
 			if manifesto.transporter_type == "In House":
-				description += "<b>" + _("VEHICLE NUMBER") + ": " + manifesto.truck
+				description += "<b>" + _("VEHICLE NUMBER") + ": " + manifesto.truck_license_plate_no
 				if manifesto.vehicle_trip:
 					trip_info = "<BR>" + _("TRIP") + ": " + manifesto.vehicle_trip
+					description += "<br><b>" + _("DRIVER NAME") + ": " + manifesto.driver_name
 			elif manifesto.transporter_type == "Sub-Contractor":
-				description += "<b>" + _("VEHICLE NUMBER") + ": " + manifesto.truck
+				description += "<b>" + _("VEHICLE NUMBER") + ": " + manifesto.truck_license_plate_no
 				description += "<br><b>" + _("DRIVER NAME") + ": " + manifesto.driver_name
 
 		if row["cargo_route"]:
