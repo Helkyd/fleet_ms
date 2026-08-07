@@ -483,7 +483,7 @@ def create_stock_out_entry(doc, fuel_stock_out):
 				purpose="Material Issue",
 				from_warehouse=warehouse,
 				company=doc.company,
-				remarks=f"Transfer for {doc.assigned_driver} in truck {doc.truck_number}",
+				remarks=_(f"Transfer for {doc.assigned_driver} in truck {doc.truck_number} for Trip {doc.name}"),
 			))
 			set_dimension(doc, stock_entry_doc)
 			set_dimension(doc, stock_entry_doc, tr_child=stock_entry_doc.items[0])
