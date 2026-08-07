@@ -160,26 +160,7 @@ def create_quotation(doc, rows):
 	for row in rows:
 		description = ""
 		trip_info = None
-		if row.get("transporter_type"):
-			if row["transporter_type"] == "In House":
-				description += "<b>" + _("VEHICLE NUMBER") + ": " + row["assigned_truck"]
-				if row["created_trip"]:
-					trip_info = "<BR>" + _("TRIP") + ": " + row["created_trip"]
-					description += "<br><b>" + _("DRIVER NAME") + ": " + row["driver_name"]
-			elif row["transporter_type"] == "Sub-Contractor":
-				description += "<b>" + _("VEHICLE NUMBER") + ": " + row["truck_number"]
-				description += "<br><b>" + _("DRIVER NAME") + ": " + row["driver_name"]
-		if row.get("manifest_number"):
-			manifesto = frappe.get_doc("Manifest", row.get("manifest_number"))
-			print (manifesto.transporter_type)
-			if manifesto.transporter_type == "In House":
-				description += "<b>" + _("VEHICLE NUMBER") + ": " + manifesto.truck_license_plate_no
-				if manifesto.vehicle_trip:
-					trip_info = "<BR>" + _("TRIP") + ": " + manifesto.vehicle_trip
-					description += "<br><b>" + _("DRIVER NAME") + ": " + manifesto.driver_name
-			elif manifesto.transporter_type == "Sub-Contractor":
-				description += "<b>" + _("VEHICLE NUMBER") + ": " + manifesto.truck_license_plate_no
-				description += "<br><b>" + _("DRIVER NAME") + ": " + manifesto.driver_name
+
 
 		if row["cargo_route"]:
 			#FIX 05-08-2026
@@ -188,8 +169,47 @@ def create_quotation(doc, rows):
 			else:
 				description += _("ROUTE") + ": " + row["cargo_route"]
 
+		if row.get("transporter_type"):
+			if row["transporter_type"] == "In House":
+				
+				if row["created_trip"]:
+					trip_info = "<BR>" + _("TRIP") + ": " + row["created_trip"] + "&nbsp;&nbsp;" + "<b>" + _("VEHICLE NUMBER") + ": " + row["assigned_truck"]
+					description += "<br><b>" + _("DRIVER NAME") + ": " + row["driver_name"]
+				else:
+					description += "<b>" + _("VEHICLE NUMBER") + ": " + row["assigned_truck"]
+
+			elif row["transporter_type"] == "Sub-Contractor":
+				description += "<b>" + _("VEHICLE NUMBER") + ": " + row["truck_number"]
+				description += "<br><b>" + _("DRIVER NAME") + ": " + row["driver_name"]
+
+		if row.get("manifest_number"):
+			manifesto = frappe.get_doc("Manifest", row.get("manifest_number"))
+			print (manifesto.transporter_type)
+			if manifesto.transporter_type == "In House":
+				
+				if manifesto.vehicle_trip:
+					trip_info = "<BR>" + _("TRIP") + ": " + manifesto.vehicle_trip + "&nbsp;&nbsp;&nbsp;&nbsp;" + "<b>" + _("VEHICLE NUMBER") + ": " + manifesto.truck_license_plate_no
+					description += "<br><b>" + _("DRIVER NAME") + ": " + manifesto.driver_name
+				else:
+					description += "<b>" + _("VEHICLE NUMBER") + ": " + manifesto.truck_license_plate_no
+
+			elif manifesto.transporter_type == "Sub-Contractor":
+				description += "<b>" + _("VEHICLE NUMBER") + ": " + manifesto.truck_license_plate_no
+				description += "<br><b>" + _("DRIVER NAME") + ": " + manifesto.driver_name
+
+
 		if trip_info:
 			description += trip_info
+
+			#FIX 07-08-2026; Add Extra Details from Cargo Registration
+			#tmpcargo_regis = frappe.db.sql(""" SELECT name,manifest from `tabCargo Registration` where docstatus =1 and manifest=%s """,manifesto.name,as_dict=True)
+			cargo_regis = frappe.get_doc("Cargo Registration",row.get("parent"))
+			if cargo_regis.cargo_details[0].extra_details:
+				print ('cargo extra details')
+				print (cargo_regis.cargo_details[0].extra_details )
+				#description += "<br>" + cargo_regis.cargo_details[0].extra_details.split('\n')
+				description += "<br>" + "<br>".join(cargo_regis.cargo_details[0].extra_details.split('\n'))
+
 
 		#FIX 19-03-2026; Removed for now as field not EXIST
 		'''
