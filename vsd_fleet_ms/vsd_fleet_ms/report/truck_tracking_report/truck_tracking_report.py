@@ -59,7 +59,9 @@ def execute(filters=None):
 			"tonage": row.manifest_total_weight,
 			"position": "",
 			"loaded_date": row.date,
-			"tracking_date": ""
+			"tracking_date": "",
+			"start_km": row.start_km,
+			"end_km": row.end_km
 		})
 		data.append(new_row)
 	
@@ -75,6 +77,8 @@ def get_columns(filters):
 		{"fieldname": "position", "fieldtype": "Data", "label": _("Position"), "width": "100px"},
 		{"fieldname": "loaded_date", "fieldtype": "Date", "label": _("Loaded Date"), "width": "100px"},
 		{"fieldname": "tracking_date", "fieldtype": "Date", "label": _("Tracking_date"), "width": "100px"},
+		{"fieldname": "start_km", "fieldtype": "Data", "label": _("Start KM"), "width": "100px"},
+		{"fieldname": "end_km", "fieldtype": "Data", "label": _("End KM"), "width": "100px"},
 	]
 	return columns
 
@@ -82,7 +86,8 @@ def get_trip_details(filters):
 	conditions = get_conditions(filters)
 	trip_details = frappe.db.sql("""
 		SELECT vt.name, vt.manifest, vt.truck_number, vt.trailer_1, vt.trailer_2, vt.trailer_3, cr.customer, 
-			vt.assigned_driver, vt.driver_name, vt.date, vt.phone_number, ma.manifest_total_weight, ma.route
+			vt.assigned_driver, vt.driver_name, vt.date, vt.phone_number, ma.manifest_total_weight, ma.route,
+			vt.start_km, vt.end_km
 		FROM `tabTrips` vt
 		INNER JOIN `tabTruck Driver` d ON vt.assigned_driver = d.name
 		INNER JOIN `tabManifest` ma ON ma.vehicle_trip = vt.name
