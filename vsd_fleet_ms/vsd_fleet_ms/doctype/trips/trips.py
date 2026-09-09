@@ -257,6 +257,29 @@ class Trips(Document):
 				{"status": "On Trip", "trans_ms_current_trip": self.name},
 				update_modified=False,
 			)
+			#FIX 08-09-2026; For Oficinas...
+			if "aoerp_oficinas" in frappe.get_installed_apps():
+				oficinatruck = frappe.db.sql(""" SELECT name from `tabVeiculos` where name = %s """,truck_number,as_dict=True)
+				print ('oficinatruck ', oficinatruck)
+				if oficinatruck == []:
+					print ('Manifest - truck ',self.truck_licence_plate)
+					oficinatruck = frappe.db.sql(""" SELECT name from `tabVeiculos` where name = %s """,self.truck_licence_plate,as_dict=True)
+					if oficinatruck != []:
+						frappe.db.set_value(
+							"Veiculos",
+							self.truck_licence_plate,
+							{"status": "On Trip"},
+							update_modified=False,
+						)
+
+				else:
+					frappe.db.set_value(
+						"Veiculos",
+						truck_number,
+						{"status": "On Trip"},
+						update_modified=False,
+					)
+
 			return
 
 		other_active_trip = frappe.db.get_value(

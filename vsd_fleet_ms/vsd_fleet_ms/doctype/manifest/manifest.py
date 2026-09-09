@@ -23,6 +23,24 @@ class Manifest(Document):
 			truck.trans_ms_current_trip = self.vehicle_trip
 			truck.save()
 
+			#FIX 07-09-2026; Oficina
+			if "aoerp_oficinas" in frappe.get_installed_apps():
+				oficinatruck = frappe.db.sql(""" SELECT name from `tabVeiculos` where name = %s """,self.truck,as_dict=True)
+				print ('oficinatruck ', oficinatruck)
+				if oficinatruck == []:
+					print ('Manifest - truck ',self.truck_license_plate_no)
+					oficinatruck = frappe.db.sql(""" SELECT name from `tabVeiculos` where name = %s """,self.truck_license_plate_no,as_dict=True)
+					if oficinatruck == []:
+						frappe.throw('Este camiao nao existe!!!')
+					else:
+						oficina_truck = frappe.get_doc("Veiculos", self.truck_license_plate_no)
+				else:
+					oficina_truck = frappe.get_doc("Veiculos", self.truck)
+
+				oficina_truck.status = "On Trip"
+				oficina_truck.save()
+
+
 		#FIX 03-08-2026; Check for Cargo... 
 		if self.docstatus == 1 and len(self.manifest_cargo_details) == 0:
 			frappe.validated = False
