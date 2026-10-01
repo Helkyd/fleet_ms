@@ -53,11 +53,25 @@ def update_existing_so_dimension():
 
 							#Now to on Sales Invoices if exists...
 							print ('Allocated TRuck Dimension on Sales Invoices....')
+							print ('existing_so.name ',existing_so.name)
+							print ('speccarog allo ', manifesto[0]['specific_cargo_allocated'])
 							#it.truck = manifesto[0]['specific_cargo_allocated']
-							frappe.db.sql(""" UPDATE `tabSales Invoice Item` set truck = %s where parent = %s """,(manifesto[0]['specific_cargo_allocated'],existing_so.name), as_dict=False)
+							#if frappe.db.sql(""" SELECT parent,truck from `tabSales Invoice Item` where parent = %s """,existing_so.name,as_dict=True) != []:
+							#	print ('Aqui ')
+							#	frappe.db.sql(""" UPDATE `tabSales Invoice Item` set truck = %s where parent = %s """,(manifesto[0]['specific_cargo_allocated'],existing_so.name), as_dict=False)
+							#elif it.sales_invoice != "" and it.sales_invoice != None:
+							#Search based on SI set on Sales Order
+							#print ('Aqui sales invoice ', it.sales_invoice)
+							#print ('Aqui SIDOCNAME ', it.si_docname)
+
+							if "sales_invoice" in dir(it) and it.sales_invoice != "" and it.sales_invoice != None:
+								frappe.db.sql(""" UPDATE `tabSales Invoice Item` set truck = %s where parent = %s """,(manifesto[0]['specific_cargo_allocated'],it.sales_invoice), as_dict=False)
+								print ('*************** Gravou FT com Truck!!!!')
+							elif "si_docname" in dir(it) and it.si_docname != "" and it.si_docname != None:
+								frappe.db.sql(""" UPDATE `tabSales Invoice Item` set truck = %s where parent = %s """,(manifesto[0]['specific_cargo_allocated'],it.si_docname), as_dict=False)
+								print ('////////////// Gravou FT sidocname com Truck!!!!')
 						
 							frappe.db.commit()
-
 
 		
 
